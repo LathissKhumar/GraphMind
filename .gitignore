@@ -219,3 +219,38 @@ __marimo__/
 
 
 notes.md
+
+# ----- Added: ignore common local, build, and JS artifacts -----
+# Node modules
+node_modules/
+**/node_modules/
+dashboard/node_modules/
+
+# Frontend build/cache
+dashboard/dist/
+dashboard/build/
+dashboard/.parcel-cache/
+dashboard/.cache/
+
+# Local runtime / temp
+.sisyphus/
+.codebase*/
+.codebase_test/
+.zip_staging_*/
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Python bytecode (some already present but keep safe)
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtualenvs
+.venv/
+venv/
+env/
