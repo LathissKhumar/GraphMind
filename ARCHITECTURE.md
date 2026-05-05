@@ -167,6 +167,29 @@ TEMPLATES = {
 - 10MB ZIP size limit
 - Public repos only (v1)
 
+### 6.2 Language Detection: Pygments
+
+**Decision**: Use Pygments lexer for language detection
+
+**Reason**:
+- Industry-standard (used by GitHub, Read the Docs, PyPI)
+- Detects 300+ languages automatically
+- More accurate than file extension matching
+- Handles unknown file types gracefully
+
+**Implementation**:
+```python
+from pygments.lexers import get_lexer_by_filename, guess_lexer_for_filename
+
+# Try by filename first (fast)
+lexer = get_lexer_by_filename(f)
+# Fallback: guess from content (for ambiguous files)
+lexer = guess_lexer_for_filename(f, content)
+```
+
+**Supported Languages** (partial list):
+- Python, JavaScript, TypeScript, Go, Rust, Java, C++, Ruby, PHP, Swift, Kotlin, Scala
+
 ---
 
 ## 7. Error Handling
@@ -308,6 +331,7 @@ tiktoken>=0.8.0         # Token counting
 jinja2>=3.1.0           # Template engine
 httpx>=0.27.0           # HTTP client
 huggingface-hub>=0.20.0 # LLM access
+pygments>=2.17.0         # Language detection (300+ languages)
 ```
 
 ### ML (Optional - for advanced classifier)
