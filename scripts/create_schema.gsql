@@ -1,0 +1,13 @@
+CREATE VERTEX Module (PRIMARY_ID id STRING, name STRING, file_path STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Class (PRIMARY_ID id STRING, name STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Function (PRIMARY_ID id STRING, name STRING) WITH primary_id_as_attribute="true"
+CREATE VERTEX Import (PRIMARY_ID id STRING, name STRING) WITH primary_id_as_attribute="true"
+
+CREATE DIRECTED EDGE defines (FROM Module, TO Class | FROM Module, TO Function | FROM Class, TO Function)
+CREATE DIRECTED EDGE calls (FROM Function, TO Function)
+CREATE DIRECTED EDGE inherits (FROM Class, TO Class)
+CREATE DIRECTED EDGE imports (FROM Module, TO Import)
+CREATE DIRECTED EDGE contains (FROM Module, TO Module)
+CREATE DIRECTED EDGE depends_on (FROM Module, TO Module)
+
+CREATE GRAPH CodeGraphX (Module, Class, Function, Import, defines, calls, inherits, imports, contains, depends_on)
