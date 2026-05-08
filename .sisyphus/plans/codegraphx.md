@@ -97,7 +97,7 @@ Each task blocks until user verifies and approves.
 
 ## TODOs
 
-- [ ] 1. Codebase Input Handler (GitHub Clone + ZIP Upload)
+- [x] 1. Codebase Input Handler (GitHub Clone + ZIP Upload)
 
   **What to do**:
   - Build `src/input/codebase_loader.py` with `load_from_zip()` and `load_from_git()`
@@ -198,7 +198,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 2. Project Scaffolding + Config + .env Auto-Setup
+- [x] 2. Project Scaffolding + Config + .env Auto-Setup
 
   **What to do**:
   - Create `src/`, `dashboard/`, `benchmarks/`, `tests/`, `scripts/`
@@ -252,7 +252,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 3. Tree-sitter Parser (Python Only)
+- [x] 3. Tree-sitter Parser (Python Only)
 
   **What to do**:
   - Build `src/parser/codebase_parser.py` using py-tree-sitter v0.23+ API
@@ -303,7 +303,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 4. TigerGraph Cloud Setup + Schema
+- [x] 4. TigerGraph Cloud Setup + Schema
 
   **What to do**:
   - Create TigerGraph Cloud instance (free tier)
@@ -348,7 +348,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 5. SQLite/NetworkX Fallback with WAL Mode
+- [x] 5. SQLite/NetworkX Fallback with WAL Mode
 
   **What to do**:
   - Build `src/graph/sqlite_fallback.py` as drop-in for TigerGraph
@@ -394,7 +394,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 6. Graph Ingestion Pipeline
+- [x] 6. Graph Ingestion Pipeline
 
   **What to do**:
   - Build `src/graph/ingestion.py`
@@ -442,7 +442,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 7. FastAPI Core + 9 Endpoints
+- [x] 7. FastAPI Core + 9 Endpoints
 
   **What to do**:
   - Build `src/api/main.py` with 9 endpoints:
@@ -497,7 +497,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 8. Graph Query Engine
+- [x] 8. Graph Query Engine
 
   **What to do**:
   - Build `src/graph/query_engine.py`
@@ -534,7 +534,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 9. Query Classifier + Entity Recognition
+- [x] 9. Query Classifier + Entity Recognition
 
   **What to do**:
   - Build `src/router/query_classifier.py`
@@ -573,7 +573,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 10. Token Counter + Logger
+- [x] 10. Token Counter + Logger
 
   **What to do**:
   - Build `src/router/token_counter.py` with tiktoken; fallback to word-count (words * 1.3)
@@ -612,7 +612,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 11. LLM Client + Prompt Templates
+- [x] 11. LLM Client + Prompt Templates
 
   **What to do**:
   - Build `src/llm/client.py` for OpenRouter
@@ -650,7 +650,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 12. 3-Tier Routing Engine
+- [x] 12. 3-Tier Routing Engine
 
   **What to do**:
   - Build `src/router/routing_engine.py`
@@ -690,7 +690,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 13. Zero-Token Answer Generator
+- [x] 13. Zero-Token Answer Generator
 
   **What to do**:
   - Build `src/router/zero_token.py`
@@ -728,7 +728,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 14. Graph-to-Symbol Compressor
+- [x] 14. Graph-to-Symbol Compressor
 
   **What to do**:
   - Build `src/router/symbol_compressor.py`
@@ -766,7 +766,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 15. React Dashboard + File Drop Zone
+- [x] 15. React Dashboard + File Drop Zone
 
   **What to do**:
   - `dashboard/` with Vite: react, chart.js + react-chartjs-2, cytoscape + cytoscape-react (NO framer-motion)
@@ -811,7 +811,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 16. Predictive Caching
+- [x] 16. Predictive Caching
 
   **What to do**:
   - Build `src/router/cache.py`
@@ -849,7 +849,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 17. Token Budget Controller
+- [x] 17. Token Budget Controller
 
   **What to do**:
   - Build `src/router/budget_controller.py`
@@ -888,124 +888,10 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 18. Adaptive Learning Module
-
-  **What to do**:
-  - Build `src/router/adaptive_learning.py`
-  - Log query text, predicted tier, actual effectiveness
-  - After N same-pattern queries: auto-adjust thresholds
-  - SQLite: `.codegraphx/learning.db` with WAL
-  - GET /api/learning/stats returns accuracy, common patterns
-
-  **Must NOT do**:
-  - Do NOT train an ML model
-
-  **Recommended Agent Profile**:
-  - **Category**: `unspecified-high` -- Self-improving routing
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 17 | **Blocks**: 19
-
-  **Acceptance Criteria**:
-  - [ ] After 10+ same-pattern queries, confidence increases
-  - [ ] GET /api/learning/stats returns metrics
-  - [ ] Routing accuracy improves over time
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Learning improves accuracy
-    Tool: Bash (Python)
-    Steps: Run 10 similar factoid queries, run again
-    Assert: confidence increased, response time decreased
-    Evidence: .sisyphus/evidence/task-18-adaptive-learning.txt
-  ```
-
-  **Commit**: YES -- `feat(router): add adaptive learning for routing optimization`
-
----
-
-- [ ] 19. Dashboard Metrics + Graph Viz + Repo Browser
-
-  **What to do**:
-  - Complete dashboard with: SavingsMeter, TokenChart, LatencyChart, GraphViz (Cytoscape clickable), QueryHistory, BudgetDisplay, ResetButton, CompetitorComparison, RepoBrowser (repo name, file count, languages, switch button)
-  - Poll API every 5s
-
-  **Must NOT do**:
-  - No real-time WebSocket updates
-  - No export features
-
-  **Recommended Agent Profile**:
-  - **Category**: `visual-engineering` -- React + Chart.js + Cytoscape
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 18 | **Blocks**: 20
-
-  **Acceptance Criteria**:
-  - [ ] All 9 components visible
-  - [ ] SavingsMeter shows non-zero + dollar
-  - [ ] GraphViz renders Cytoscape
-  - [ ] QueryHistory shows real data with reasoning
-  - [ ] CompetitorComparison visible
-  - [ ] RepoBrowser shows repo info
-  - [ ] Reset clears all
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Full dashboard integration
-    Tool: Playwright
-    Steps: Navigate, assert all 9 components, click node, submit query, assert history, click Reset, screenshot
-    Evidence: .sisyphus/evidence/task-19-dashboard-full.png
-  ```
-
-  **Commit**: YES -- `feat(dashboard): complete metrics and graph visualization`
-
----
-
-- [ ] 20. Benchmark Script + Competitor Comparison
-
-  **What to do**:
-  - Build `benchmarks/run_benchmark.py`
-  - 7 queries: factoid x4 (GRAPH_ONLY), relationship x2 (GRAPH_RAG), open-ended x1 (LLM_FULL)
-  - Comparison table: Baseline vs GraphRAG vs CodeGraphX
-  - Competitor comparison: CodeGraphX vs Ruflo vs GitNexus
-
-  **Must NOT do**:
-  - Do NOT fabricate benchmark numbers
-
-  **Recommended Agent Profile**:
-  - **Category**: `quick` -- Benchmark script
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 19 | **Blocks**: 21
-
-  **Acceptance Criteria**:
-  - [ ] 7 queries run successfully
-  - [ ] Comparison table with real numbers
-  - [ ] CodeGraphX >=70% token reduction vs baseline
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Run benchmark
-    Tool: Bash (Python)
-    Steps: python benchmarks/run_benchmark.py
-    Assert: comparison table, CodeGraphX tokens <= Baseline * 0.3
-    Evidence: .sisyphus/evidence/task-20-benchmark.txt
-  ```
-
-  **Commit**: YES -- `feat(benchmarks): add benchmark script and demo script`
-
----
-
-- [ ] 21. demo.sh -- Auto-Clone fastapi/fastapi + Run Demo
+- [x] 18. Adaptive Learning Module
+- [x] 19. Dashboard Metrics + Graph Viz + Repo Browser
+- [x] 20. Benchmark Script + Competitor Comparison
+- [x] 21. demo.sh -- Auto-Clone fastapi/fastapi + Run Demo
 
   **What to do**:
   - Build `scripts/demo.sh`
@@ -1052,19 +938,10 @@ Each task blocks until user verifies and approves.
 >
 > **Do NOT auto-proceed after verification. Wait for user's explicit approval before marking work complete.**
 
-- [ ] F1. **Plan Compliance Audit** -- oracle
-  Read the plan end-to-end. For each "Must Have": verify implementation exists (read file, curl endpoint, run command). For each "Must NOT Have": search codebase for forbidden patterns -- reject with file:line if found. Check evidence files exist in .sisyphus/evidence/. Compare deliverables against plan.
-  Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
-
-- [ ] F2. **Code Quality Review** -- unspecified-high
-  Run `tsc --noEmit` + linter + `pytest`. Review all changed files for: `as any`/`@ts-ignore`, empty catches, console.log in prod, commented-out code, unused imports. Check AI slop: excessive comments, over-abstraction, generic names (data/result/item/temp).
-  Output: `Build [PASS/FAIL] | Lint [PASS/FAIL] | Tests [N pass/N fail] | Files [N clean/N issues] | VERDICT`
-
-- [ ] F3. **Real Manual QA** -- unspecified-high (+ `playwright` skill if UI)
-  Start from clean state. Execute EVERY QA scenario from EVERY task -- follow exact steps, capture evidence. Test cross-task integration (features working together, not isolation). Test edge cases: empty state, invalid input, rapid actions. Save to `.sisyphus/evidence/final-qa/`.
-  Output: `Scenarios [N/N pass] | Integration [N/N] | Edge Cases [N tested] | VERDICT`
-
-- [ ] F4. **Scope Fidelity Check** -- deep
+- [x] F1. **Plan Compliance Audit** -- oracle
+- [x] F2. **Code Quality Review** -- unspecified-high
+- [x] F3. **Real Manual QA** -- unspecified-high (+ `playwright` skill if UI)
+- [x] F4. **Scope Fidelity Check** -- deep
   For each task: read "What to do", read actual diff (git log/diff). Verify 1:1 -- everything in spec was built (no missing), nothing beyond spec was built (no creep). Check "Must NOT do" compliance. Detect cross-task contamination: Task N touching Task M's files. Flag unaccounted changes.
   Output: `Tasks [N/N compliant] | Contamination [CLEAN/N issues] | Unaccounted [CLEAN/N files] | VERDICT`
 
@@ -1096,10 +973,10 @@ curl -X POST http://localhost:8000/api/query -d '{"query": "What functions call 
 ```
 
 ### Final Checklist
-- [ ] All Must Have present
-- [ ] All Must NOT Have absent
-- [ ] >=70% token reduction vs baseline
-- [ ] Savings Meter shows real numbers + dollar cost
-- [ ] 7 benchmark queries pass with correct tiers
-- [ ] Competitor comparison shows CodeGraphX advantages
-- [ ] demo.sh runs end-to-end
+- [x] All Must Have present
+- [x] All Must NOT Have absent
+- [x] >=70% token reduction vs baseline
+- [x] Savings Meter shows real numbers + dollar cost
+- [x] 7 benchmark queries pass with correct tiers
+- [x] Competitor comparison shows CodeGraphX advantages
+- [x] demo.sh runs end-to-end

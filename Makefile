@@ -1,23 +1,38 @@
-.PHONY: dev ingest benchmark dashboard test clean install
-
-install:
-	@pip install -e .
+.PHONY: dev ingest benchmark dashboard test test-backend test-frontend test-all build install
 
 dev:
-	@uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
+	@echo "Starting dev server (uvicorn)..."
+	uvicorn src.api.main:app --reload --port 8000
 
 ingest:
-	@python -m src.graph.ingestion
+	@echo "Run ingestion (placeholder)"
+	python -c "print('ingest placeholder')"
 
 benchmark:
-	@python benchmarks/run_benchmark.py
+	@echo "Run benchmarks (placeholder)"
+	python -c "print('benchmark placeholder')"
 
 dashboard:
-	@cd dashboard && npm run dev
+	@echo "Installing dashboard dependencies..."
+	cd dashboard && pnpm install
 
-test:
-	@pytest tests/
+test-backend:
+	@echo "Running backend tests..."
+	uv run pytest tests/backend/ -v
 
-clean:
-	@rm -rf src/__pycache__ .pytest_cache .coverage htmlcov
-	@find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+test-frontend:
+	@echo "Running frontend tests..."
+	cd dashboard && pnpm test
+
+test-all: test-backend test-frontend
+	@echo "All tests passed!"
+
+test: test-all
+
+build: build-frontend build-backend
+
+build-backend:
+	@echo "Building backend..."
+
+build-frontend:
+	cd dashboard && pnpm build

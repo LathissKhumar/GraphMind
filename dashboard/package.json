@@ -1,0 +1,34 @@
+{
+  "name": "codegraphx-dashboard",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.4",
+    "chart.js": "4.4.0",
+    "clsx": "^2.1.1",
+    "cytoscape": "3.3.0",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
+    "react": "18.2.0",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "18.2.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@vitejs/plugin-react": "6.0.1",
+    "autoprefixer": "^10.5.0",
+    "jsdom": "^23.0.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.2.4",
+    "vite": "8.0.10",
+    "vitest": "^1.0.0"
+  }
+}

@@ -28,7 +28,7 @@
 
 | Component | Choice | Why |
 |-----------|--------|-----|
-| **LLM** | HuggingFace | Free endpoints (no API costs!) |
+| **LLM** | GitHub Models (gpt-4o-mini) | Free tier (no API costs!) |
 | **Graph DB** | TigerGraph Savanna | Hackathon sponsor, stable |
 | **Parser** | Tree-sitter | Industry standard, accurate |
 | **Python package manager** | uv | 10x faster than pip |

@@ -1,0 +1,363 @@
+"""
+GraphMind Tree-sitter Parser (Python Only)
+
+Extracts code structure from Python codebases using tree-sitter v0.23+ API.
+Outputs JSON with nodes (functions, classes, imports) and edges (call relationships).
+"""
+
+import json
+import logging
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
+try:
+    from tree_sitter import Parser
+    from tree_sitter_python import language as python_language
+    _ts_available = True
+except ImportError:
+    _ts_available = False
+    python_language = None
+    if TYPE_CHECKING:
+        from tree_sitter import Parser
+    else:
+        Parser = type("DummyType", (), {})  # type: ignore
+    logging.warning("tree-sitter not available. Install with: pip install tree-sitter tree-sitter-python")
+
+TREE_SITTER_AVAILABLE = _ts_available
+
+logger = logging.getLogger(__name__)
+
+
+class CodebaseParser:
+    """Parse Python codebases using tree-sitter to extract code structure."""
+
+    def __init__(self, file_limit: int = 500):
+        self.file_limit: int = file_limit
+        self.parser: Parser | None = None
+        self._init_parser()
+
+    def _init_parser(self):
+        if not TREE_SITTER_AVAILABLE or python_language is None:
+            logger.warning("Tree-sitter not available. Parser will return empty results.")
+            return
+
+        try:
+            from tree_sitter import Language
+            lang_capsule = python_language()
+            lang = Language(lang_capsule)
+            self.parser = Parser()
+            self.parser.language = lang
+            logger.info("Tree-sitter Python parser initialized")
+        except Exception as e:
+            logger.error(f"Failed to initialize tree-sitter parser: {e}")
+            self.parser = None
+
+    def parse_codebase(self, codebase_path: Path) -> dict[str, Any]:
+        """Parse a codebase directory and extract code structure."""
+        nodes: list[dict[str, Any]] = []
+        edges: list[dict[str, Any]] = []
+        file_count = 0
+
+        python_files = list(codebase_path.rglob("*.py"))
+        logger.info(f"Found {len(python_files)} Python files, will process up to {self.file_limit}")
+
+        if not self.parser:
+            logger.warning("Parser not initialized. Returning empty structure.")
+            return {
+                "nodes": nodes,
+                "edges": edges,
+                "metadata": {
+                    "files_parsed": file_count,
+                    "total_files": len(python_files),
+                    "nodes_extracted": len(nodes),
+                    "edges_extracted": len(edges)
+                }
+            }
+
+        for py_file in python_files[:self.file_limit]:
+            try:
+                file_nodes, file_edges = self._parse_file(py_file)
+                nodes.extend(file_nodes)
+                edges.extend(file_edges)
+                file_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to parse {py_file}: {e}")
+                continue
+
+        logger.info(f"Parsed {file_count} files, extracted {len(nodes)} nodes and {len(edges)} edges")
+
+        return {
+            "nodes": nodes,
+            "edges": edges,
+            "metadata": {
+                "files_parsed": file_count,
+                "total_files": len(python_files),
+                "nodes_extracted": len(nodes),
+                "edges_extracted": len(edges)
+            }
+        }
+
+    def _parse_file(self, file_path: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+        """Parse a single Python file and extract nodes and edges."""
+        try:
+            content = file_path.read_text(encoding='utf-8')
+        except Exception as e:
+            logger.warning(f"Failed to read {file_path}: {e}")
+            return [], []
+
+        if not self.parser:
+            logger.warning(f"Parser not initialized, skipping {file_path}")
+            return [], []
+
+        try:
+            tree = self.parser.parse(bytes(content, 'utf-8'))
+        except Exception as e:
+            logger.warning(f"Failed to parse {file_path}: {e}")
+            return [], []
+
+        nodes = []
+        edges = []
+        cursor = tree.walk()
+        self._traverse_tree(cursor, file_path, content, nodes, edges)
+
+        return nodes, edges
+
+    def _traverse_tree(self, cursor: Any, file_path: Path, content: str,
+                       nodes: list[dict[str, Any]], edges: list[dict[str, Any]]):
+        """Traverse the AST tree and extract nodes and edges."""
+        while True:
+            node = cursor.node
+            node_type = node.type
+
+            if node_type == 'function_definition':
+                self._extract_function(node, file_path, content, nodes, edges)
+            elif node_type == 'class_definition':
+                self._extract_class(node, file_path, content, nodes, edges)
+            elif node_type == 'import_statement':
+                self._extract_import(node, file_path, content, nodes, edges)
+            elif node_type == 'import_from_statement':
+                self._extract_import_from(node, file_path, content, nodes, edges)
+
+            if cursor.goto_first_child():
+                self._traverse_tree(cursor, file_path, content, nodes, edges)
+                cursor.goto_parent()
+
+            if not cursor.goto_next_sibling():
+                break
+
+    def _extract_function(self, node: Any, file_path: Path, content: str,
+                         nodes: list[dict[str, Any]], edges: list[dict[str, Any]]):
+        """Extract function definition information."""
+        name_node = node.child_by_field_name('name')
+        if not name_node:
+            return
+
+        func_name = self._get_node_text(name_node, content)
+        params_node = node.child_by_field_name('parameters')
+        params = self._extract_parameters(params_node, content) if params_node else []
+        docstring = self._extract_docstring(node, content)
+
+        func_node = {
+            "id": f"{file_path}:{func_name}",
+            "type": "function",
+            "name": func_name,
+            "file": str(file_path),
+            "parameters": params,
+            "docstring": docstring,
+            "line": node.start_point[0] + 1
+        }
+        nodes.append(func_node)
+
+        self._extract_function_calls(node, file_path, func_name, content, edges)
+
+    def _extract_class(self, node: Any, file_path: Path, content: str,
+                      nodes: list[dict[str, Any]], edges: list[dict[str, Any]]):
+        """Extract class definition information."""
+        name_node = node.child_by_field_name('name')
+        if not name_node:
+            return
+
+        class_name = self._get_node_text(name_node, content)
+        bases_node = node.child_by_field_name('superclasses')
+        bases = self._extract_bases(bases_node, content) if bases_node else []
+
+        methods = []
+        for child in node.children:
+            if child.type == 'function_definition':
+                method_name_node = child.child_by_field_name('name')
+                if method_name_node:
+                    methods.append(self._get_node_text(method_name_node, content))
+
+        class_node = {
+            "id": f"{file_path}:{class_name}",
+            "type": "class",
+            "name": class_name,
+            "file": str(file_path),
+            "bases": bases,
+            "methods": methods,
+            "line": node.start_point[0] + 1
+        }
+        nodes.append(class_node)
+
+    def _extract_import(self, node: Any, file_path: Path, content: str,
+                       nodes: list[dict[str, Any]], edges: list[dict[str, Any]]):
+        """Extract import statement information."""
+        names = []
+        for child in node.children:
+            if child.type == 'dotted_name':
+                names.append(self._get_node_text(child, content))
+            elif child.type == 'aliased_import':
+                for grandchild in child.children:
+                    if grandchild.type == 'dotted_name':
+                        names.append(self._get_node_text(grandchild, content))
+
+        for name in names:
+            import_node = {
+                "id": f"{file_path}:import:{name}",
+                "type": "import",
+                "name": name,
+                "file": str(file_path),
+                "line": node.start_point[0] + 1
+            }
+            nodes.append(import_node)
+
+    def _extract_import_from(self, node: Any, file_path: Path, content: str,
+                            nodes: list[dict[str, Any]], edges: list[dict[str, Any]]):
+        """Extract from-import statement information."""
+        module_node = node.child_by_field_name('module_name')
+        if not module_node:
+            return
+
+        module_name = self._get_node_text(module_node, content)
+        names = []
+
+        for child in node.children:
+            if child.type == 'dotted_name':
+                names.append(self._get_node_text(child, content))
+            elif child.type == 'wildcard_import':
+                names.append('*')
+
+        for name in names:
+            import_node = {
+                "id": f"{file_path}:import_from:{module_name}.{name}",
+                "type": "import",
+                "name": f"{module_name}.{name}",
+                "file": str(file_path),
+                "line": node.start_point[0] + 1
+            }
+            nodes.append(import_node)
+
+    def _extract_function_calls(self, node: Any, file_path: Path, func_name: str,
+                               content: str, edges: list[dict[str, Any]]):
+        """Extract function calls within a function."""
+        cursor = node.walk()
+        while True:
+            current_node = cursor.node
+
+            if current_node.type == 'call':
+                func_node = current_node.child_by_field_name('function')
+                if func_node:
+                    called_func = self._get_node_text(func_node, content)
+
+                    call_edge = {
+                        "source": f"{file_path}:{func_name}",
+                        "target": called_func,
+                        "type": "calls",
+                        "file": str(file_path)
+                    }
+                    edges.append(call_edge)
+
+            if cursor.goto_first_child():
+                continue
+
+            while not cursor.goto_next_sibling():
+                if not cursor.goto_parent():
+                    return
+
+    def _extract_parameters(self, params_node: Any, content: str) -> list[str]:
+        """Extract parameter names from a parameters node."""
+        params = []
+
+        for child in params_node.children:
+            if child.type == 'identifier':
+                params.append(self._get_node_text(child, content))
+            elif child.type == 'typed_parameter':
+                for grandchild in child.children:
+                    if grandchild.type == 'identifier':
+                        params.append(self._get_node_text(grandchild, content))
+                        break
+            elif child.type == 'default_parameter':
+                for grandchild in child.children:
+                    if grandchild.type == 'identifier':
+                        params.append(self._get_node_text(grandchild, content))
+                        break
+
+        return params
+
+    def _extract_bases(self, bases_node: Any, content: str) -> list[str]:
+        """Extract base class names from a superclasses node."""
+        bases = []
+
+        for child in bases_node.children:
+            if child.type == 'identifier':
+                bases.append(self._get_node_text(child, content))
+            elif child.type == 'dotted_name':
+                bases.append(self._get_node_text(child, content))
+            elif child.type == 'argument_list':
+                for arg in child.children:
+                    if arg.type == 'identifier':
+                        bases.append(self._get_node_text(arg, content))
+                    elif arg.type == 'dotted_name':
+                        bases.append(self._get_node_text(arg, content))
+
+        return bases
+
+    def _extract_docstring(self, node: Any, content: str) -> str | None:
+        """Extract docstring from a function or class node."""
+        block_node = None
+        for child in node.children:
+            if child.type in ['block', 'suite']:
+                block_node = child
+                break
+
+        if not block_node:
+            return None
+
+        for child in block_node.children:
+            if child.type == 'string':
+                return self._get_node_text(child, content)
+
+        return None
+
+    def _get_node_text(self, node: Any, content: str) -> str:
+        """Get the text content of a node."""
+        start_byte = node.start_byte
+        end_byte = node.end_byte
+        return content[start_byte:end_byte]
+
+
+def parse_codebase_to_json(codebase_path: str, output_path: str, file_limit: int = 500):
+    """Parse a codebase and save results to JSON file."""
+    parser = CodebaseParser(file_limit=file_limit)
+    result = parser.parse_codebase(Path(codebase_path))
+
+    with open(output_path, 'w') as f:
+        json.dump(result, f, indent=2)
+
+    logger.info(f"Parsed codebase saved to {output_path}")
+    return result
+
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 3:
+        print("Usage: python codebase_parser.py <codebase_path> <output_json_path>")
+        sys.exit(1)
+
+    codebase_path = sys.argv[1]
+    output_path = sys.argv[2]
+
+    result = parse_codebase_to_json(codebase_path, output_path)
+    print(f"Parsed {result['metadata']['files_parsed']} files")
+    print(f"Extracted {result['metadata']['nodes_extracted']} nodes and {result['metadata']['edges_extracted']} edges")

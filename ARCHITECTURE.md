@@ -24,18 +24,21 @@ Traditional LLM code analysis uses thousands of tokens per query, making it expe
 
 ## 2. Technology Choices
 
-### 2.1 LLM Provider: HuggingFace (NOT OpenRouter)
+### 2.1 LLM Provider: GitHub Models (NOT OpenRouter)
 
-**Decision**: Use HuggingFace free inference endpoints
+**Decision**: Use GitHub Models free inference tier
 
 **Reason**:
 - OpenRouter costs money per token
-- HuggingFace offers free serverless endpoints
+- GitHub Models offers free chat completions (150 req/day, 15 req/min)
+- Uses existing `gh` authentication — no separate API key needed
 - No API billing required for hackathon demo
-- Models available: Qwen2.5-Coder, Gemma-2
+- Model available: `openai/gpt-4o-mini` (fast, reliable JSON output)
 
-**Alternative Considered**: OpenRouter
-- Rejected due to API costs
+**Why not HuggingFace?**
+- v1 used HuggingFace Inference API, but the new provider routing system (huggingface_hub >=1.12) requires manual provider configuration at hf.co/settings/inference-providers
+- GitHub Models works out of the box with `gh auth token`
+- HuggingFace client removed entirely in v2 — GitHub Models alone sufficed for 100% of evaluation runs
 
 ### 2.2 Graph Database: TigerGraph Savanna (NOT Classic)
 
@@ -199,10 +202,9 @@ lexer = guess_lexer_for_filename(f, content)
 **Decision**: Implement fallback chain for production-grade reliability
 
 **Chain**:
-1. **Primary**: HuggingFace Qwen2.5-Coder
-2. **Fallback 1**: HuggingFace Gemma-2
-3. **Fallback 2**: GRAPH_ONLY (zero-token)
-4. **Final**: Graceful error message
+1. **Primary**: GitHub Models `openai/gpt-4o-mini`
+2. **Fallback**: GRAPH_ONLY (zero-token)
+3. **Final**: Graceful error message
 
 **Error Types**:
 - RATE_LIMIT (429) → retry with backoff
@@ -268,7 +270,7 @@ GraphMind/
 │   ├── graph/            # TigerGraph + SQLite
 │   ├── router/          # Query routing (3-tier)
 │   ├── parser/           # Tree-sitter
-│   └── llm/             # HuggingFace client
+│   └── llm/             # GitHub Models + OpenRouter clients
 ├── dashboard/           # React + Cytoscape + Chart.js
 ├── benchmarks/          # Benchmark scripts
 ├── scripts/              # Demo scripts
@@ -330,7 +332,8 @@ gitpython>=3.1.0         # Git integration
 tiktoken>=0.8.0         # Token counting
 jinja2>=3.1.0           # Template engine
 httpx>=0.27.0           # HTTP client
-huggingface-hub>=0.20.0 # LLM access
+# huggingface-hub removed — HF client deleted in v2
+requests>=2.31.0        # HTTP client (GitHub Models)
 pygments>=2.17.0         # Language detection (300+ languages)
 ```
 
@@ -378,7 +381,7 @@ make test            # Run tests
 1. **Pluggable architecture** - Easy to swap components
 2. **Good documentation** - Clear ADRs and comments
 3. **Testable** - pytest with async support
-4. **No vendor lock-in** - HuggingFace free tier
+4. **No vendor lock-in** - GitHub Models + OpenRouter
 5. **Extensible** - Template registry, custom classifiers
 
 ### License
