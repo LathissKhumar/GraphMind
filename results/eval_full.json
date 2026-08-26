@@ -1,0 +1,31 @@
+{
+  "judge": {
+    "pass_rate": 1.0,
+    "avg_scores": {
+      "accuracy": 5.0,
+      "completeness": 5.0,
+      "relevance": 5.0,
+      "conciseness": 5.0
+    },
+    "total_evaluated": 50
+  },
+  "bertscore": {
+    "self": {
+      "precision": 0.9999999845027924,
+      "recall": 0.9999999845027924,
+      "f1": 0.9999999845027924
+    },
+    "partial": {
+      "precision": 0.7896035727858544,
+      "recall": 0.7896035727858544,
+      "f1": 0.7896035727858544
+    }
+  },
+  "ragas": {
+    "faithfulness": 0.17,
+    "answer_relevancy": 0.02462698412698413,
+    "context_precision": 1.0,
+    "context_recall": 1.0,
+    "overall": 0.5486567460317461
+  }
+}
