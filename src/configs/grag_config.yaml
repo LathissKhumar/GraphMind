@@ -1,0 +1,14 @@
+# GraphRAG Configuration Parameters
+# Environment variables can override these values (e.g., set TOP_K=10 before loading)
+
+top_k: 5
+num_hops: 2
+num_seen_min: 1
+embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+similarity_threshold: 0.7
+fallback_to_full: true
+
+# Preset mapping (auto-classified based on query keywords):
+# - GRAPH_RAG: queries containing "relationship", "between", "depends"
+# - LLM_FULL: queries containing "explain", "why", "how"
+# - auto: all other queries (default to GRAPH_RAG if graph available)

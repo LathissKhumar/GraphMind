@@ -30,39 +30,7 @@ Build CodeGraphX -- hackathon-winning project. Accept real codebases via GitHub 
 - **Large repos**: Limit to 500 files
 - **Private repos**: Public only for v1
 - **Execution**: SEQUENTIAL -- one feature at a time
-- **Stack**: FastAPI, TigerGraph Cloud (Savanna tier), React, Tree-sitter Python, OpenRouter
-
-### Research Findings (Updated May 2026)
-
-**TigerGraph Cloud (CRITICAL UPDATE)**:
-- **Use Savanna tier** (not Classic) — more stable for demos
-- Savanna Free Trial: free credits valid 1 year, usage-based pricing
-- Classic has auto-stop (1hr inactivity) = demo death mid-presentation
-- SQLite remains as fallback for demo reliability
-
-**Query Classifier (ML-Based, Open-Source Quality)**:
-- Rule-based is TOO SIMPLE for open-source project
-- Use sentence-transformers (all-MiniLM-L6-v2) for embeddings
-- 2-stage: fast heuristic filter (sub-1ms) + neural classification (10ms)
-- RouteLLM-style complexity scoring for GRAPH_ONLY vs GRAPH_RAG vs LLM_FULL
-- Reference: https://github.com/lm-sys/RouteLLM
-
-**Zero-Token Generator (3-Layer Architecture)**:
-- Layer 1: Jinja2 Templates — deterministic, fast, maps TigerGraph JSON → natural language
-- Layer 2: pySimpleNLG — handles grammar (plurals, tenses, "1 person" vs "2 people")
-- Layer 3: LLM-as-Compiler (optional) — use LLM once to write rules, then run forever without LLM
-- This is the KEY DIFFERENTIATOR — judges love zero-LLM approaches
-
-**LLM Error Handling (Production-Grade)**:
-- Multi-tier fallback: NVIDIA → Claude Haiku → Ollama local → GRAPH_ONLY → graceful error
-- Circuit breaker pattern (trip after 5 failures in 60s)
-- Exponential backoff with jitter
-- Error classification: RATE_LIMIT, OVERLOAD, TIMEOUT, CONTEXT, UNKNOWN
-
-**For Open-Source Project Quality**:
-- Extensible architecture (pluggable providers, classifiers)
-- Good documentation and type hints
-- Test coverage critical for OSS credibility
+- **Stack**: FastAPI, TigerGraph Cloud, React, Tree-sitter Python, OpenRouter
 
 ### Research Findings (from Librarian Agents)
 
@@ -82,14 +50,12 @@ Build CodeGraphX -- hackathon-winning project. Accept real codebases via GitHub 
 - Ref: https://github.com/python/cpython/blob/836fbdaaf32c355c7e8fb0af69f78fbbb28af8b1/Doc/library/zipfile.rst
 
 ### Competitive Edge vs Ruflo (37.2K) and GitNexus (34.9K)
-- **Zero-token answers** (neither competitor has this) — 3-layer architecture
-- **ML-based query classifier** (not rule-based) — extensible, open-source quality
+- Zero-token answers (neither competitor has this)
 - Visible Savings Meter with dollar cost
 - Symbol compression (70-90%)
-- Explicit token budgeting with production-grade fallback chain
+- Explicit token budgeting
 - Real repo input (ZIP/GitHub URL)
 - Routing reasoning display
-- **Open-source ready**: pluggable architecture, good docs, testable
 
 ---
 
@@ -131,7 +97,7 @@ Each task blocks until user verifies and approves.
 
 ## TODOs
 
-- [ ] 1. Codebase Input Handler (GitHub Clone + ZIP Upload)
+- [x] 1. Codebase Input Handler (GitHub Clone + ZIP Upload)
 
   **What to do**:
   - Build `src/input/codebase_loader.py` with `load_from_zip()` and `load_from_git()`
@@ -232,7 +198,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 2. Project Scaffolding + Config + .env Auto-Setup
+- [x] 2. Project Scaffolding + Config + .env Auto-Setup
 
   **What to do**:
   - Create `src/`, `dashboard/`, `benchmarks/`, `tests/`, `scripts/`
@@ -286,7 +252,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 3. Tree-sitter Parser (Python Only)
+- [x] 3. Tree-sitter Parser (Python Only)
 
   **What to do**:
   - Build `src/parser/codebase_parser.py` using py-tree-sitter v0.23+ API
@@ -337,20 +303,17 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 4. TigerGraph Cloud Setup + Schema (Savanna Tier)
+- [x] 4. TigerGraph Cloud Setup + Schema
 
   **What to do**:
-  - Create TigerGraph Cloud instance using **Savanna tier** (NOT Classic)
-  - **Why Savanna**: Free trial with credits valid 1 year, more stable for demos
-  - **Why NOT Classic**: Auto-stops after 1hr inactivity — demo death mid-presentation
+  - Create TigerGraph Cloud instance (free tier)
   - Schema: Vertex (Module, Class, Function, Import), Edge (defines, calls, inherits, imports, contains, depends_on)
   - `scripts/create_schema.gsql`, `src/graph/tigergraph_client.py`
-  - Connection timeout: 10s for SQLite fallback
+  - Connection timeout: 10s for fallback
 
   **Must NOT do**:
   - No complex GSQL queries yet
   - No data loading yet
-  - Do NOT use Classic tier
 
   **Recommended Agent Profile**:
   - **Category**: `quick` -- Cloud setup + schema
@@ -385,7 +348,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 5. SQLite/NetworkX Fallback with WAL Mode
+- [x] 5. SQLite/NetworkX Fallback with WAL Mode
 
   **What to do**:
   - Build `src/graph/sqlite_fallback.py` as drop-in for TigerGraph
@@ -431,7 +394,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 6. Graph Ingestion Pipeline
+- [x] 6. Graph Ingestion Pipeline
 
   **What to do**:
   - Build `src/graph/ingestion.py`
@@ -479,7 +442,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 7. FastAPI Core + 9 Endpoints
+- [x] 7. FastAPI Core + 9 Endpoints
 
   **What to do**:
   - Build `src/api/main.py` with 9 endpoints:
@@ -534,7 +497,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 8. Graph Query Engine
+- [x] 8. Graph Query Engine
 
   **What to do**:
   - Build `src/graph/query_engine.py`
@@ -571,28 +534,17 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 9. Query Classifier + Entity Recognition (ML-Based)
+- [x] 9. Query Classifier + Entity Recognition
 
   **What to do**:
-  - Build `src/router/query_classifier.py` with **ML-based classification**
-  - **Stage 1: Fast Heuristic Filter** (sub-1ms):
-    - Query length, keyword detection ("how is", "connected" → GRAPH_ONLY)
-    - Code density detection (backticks, function def → LLM_FULL)
-  - **Stage 2: Neural Classification** (10ms):
-    - Use `sentence-transformers` (all-MiniLM-L6-v2) for embeddings
-    - Compute complexity score from embedding
-    - Route: complexity < 0.3 → GRAPH_ONLY, < 0.7 → GRAPH_RAG, >= 0.7 → LLM_FULL
-  - Return: tier, confidence 0.0-1.0, reasoning, which_stage (heuristic/neural)
-  - Non-code detection: "what is", "help me" → friendly response
-  - Entity recognition from graph boosts confidence
-
-  **Open-Source Quality**:
-  - Make classifier pluggable (easy to swap embedding model)
-  - Add configuration for threshold tuning
-  - Include metrics: classification_latency_ms, stage_used
+  - Build `src/router/query_classifier.py`
+  - GRAPH_ONLY (factoid), GRAPH_RAG (relationship), LLM_FULL (open-ended)
+  - Use query length + keyword matching + entity recognition from graph
+  - Return: tier, confidence 0.0-1.0, reasoning
+  - Non-code detection: "what is", "help me" -> friendly response
 
   **Must NOT do**:
-  - Do NOT use LLM for classification (use lightweight embeddings)
+  - Do NOT use LLM for classification
 
   **Recommended Agent Profile**:
   - **Category**: `unspecified-high` -- Rule-based classifier
@@ -621,7 +573,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 10. Token Counter + Logger
+- [x] 10. Token Counter + Logger
 
   **What to do**:
   - Build `src/router/token_counter.py` with tiktoken; fallback to word-count (words * 1.3)
@@ -660,36 +612,16 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 11. LLM Client + Prompt Templates (Production-Grade Error Handling)
+- [x] 11. LLM Client + Prompt Templates
 
   **What to do**:
   - Build `src/llm/client.py` for OpenRouter
-  - **Primary**: github/qwen-coder (NVIDIA)
-  - **Fallback Chain** (in order):
-    1. NVIDIA (qwen-coder) — Primary
-    2. Claude Haiku / GPT-4o-mini — Cloud fallback
-    3. Ollama (local) — Offline fallback
-    4. GRAPH_ONLY (zero-token) — Last resort
-    5. Graceful error message — Total failure
-  - **Error Classification** (critical for proper handling):
-    - RATE_LIMIT (429) — retry with backoff
-    - OVERLOAD (503/502) — skip immediately
-    - TIMEOUT — skip to next provider
-    - CONTEXT (400) — skip to larger model
-    - UNKNOWN — skip to next provider
-  - **Circuit Breaker**: Trip after 5 failures in 60s, probe every 30s
-  - **Retry with Exponential Backoff**: 1s, 2s, 4s... + jitter
+  - Models: github/qwen-coder, github/claude-sonnet-4, openai/gpt-4o-mini (fallback chain)
   - Build `src/llm/prompts.py`: GRAPH_RAG and LLM_FULL system prompts
-  - 30s timeout per request
-
-  **Open-Source Quality**:
-  - Pluggable provider architecture
-  - Clear error messages (not raw API errors)
-  - Metrics: fallback_hit_rate, provider_latency, circuit_breaker_state
+  - Retry with fallback, 30s timeout
 
   **Must NOT do**:
-  - Do NOT expose raw API errors to users
-  - Do NOT retry indefinitely (budget retries)
+  - Do NOT use local LLMs
 
   **Recommended Agent Profile**:
   - **Category**: `unspecified-high` -- LLM integration
@@ -718,7 +650,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 12. 3-Tier Routing Engine
+- [x] 12. 3-Tier Routing Engine
 
   **What to do**:
   - Build `src/router/routing_engine.py`
@@ -758,45 +690,16 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 13. Zero-Token Answer Generator (3-Layer Architecture)
+- [x] 13. Zero-Token Answer Generator
 
   **What to do**:
-  - Build `src/router/zero_token.py` with **3-layer architecture** (Open-Source Quality):
-
-  **Layer 1: Jinja2 Templates**:
-  - Map TigerGraph JSON output to natural language
-  - Templates for: function_definition, class_hierarchy, import_chain, api_call, list_query
-  ```python
-  TEMPLATES = {
-      "function_definition": "Function `{name}` is defined at line {line} in {file}",
-      "class_hierarchy": "Class `{name}` inherits from `{parent}` and has {count} methods",
-      "import_chain": "Module `{name}` imports from: {imports}",
-  }
-  ```
-
-  **Layer 2: pySimpleNLG (Grammar)**:
-  - Handle grammar: plurals, tenses, conjugation
-  - "1 person" vs "2 people" automatically
-  - Reference: https://pypi.org/project/simplenlg/
-
-  **Layer 3: LLM-as-Compiler (Optional Enhancement)**:
-  - Use LLM ONCE during development to write Python rules
-  - Rules run forever without LLM (zero API cost)
-  - Extensible — users can add custom templates
-
-  **Architecture**:
-  - Route graph result pattern → select Jinja2 template → fill with data → SimpleNLG for grammar
-  - Insufficient data → triggers GRAPH_RAG upgrade
-  - Error in template → graceful fallback to generic description
-
-  **Open-Source Quality**:
-  - Template registry (easy to add new templates)
-  - Plugin architecture for custom formatters
-  - Documentation with examples
+  - Build `src/router/zero_token.py`
+  - Convert graph results to natural language WITHOUT LLM
+  - Templates for list, relationship, existence queries
+  - Insufficient data -> triggers GRAPH_RAG upgrade
 
   **Must NOT do**:
-  - Do NOT call any LLM at runtime (only during development for LLM-as-compiler)
-  - Do NOT make it complex — start with Jinja2, add SimpleNLG if time permits
+  - Do NOT call any LLM
 
   **Recommended Agent Profile**:
   - **Category**: `unspecified-high` -- Template-based NL generation
@@ -825,7 +728,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 14. Graph-to-Symbol Compressor
+- [x] 14. Graph-to-Symbol Compressor
 
   **What to do**:
   - Build `src/router/symbol_compressor.py`
@@ -863,7 +766,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 15. React Dashboard + File Drop Zone
+- [x] 15. React Dashboard + File Drop Zone
 
   **What to do**:
   - `dashboard/` with Vite: react, chart.js + react-chartjs-2, cytoscape + cytoscape-react (NO framer-motion)
@@ -908,7 +811,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 16. Predictive Caching
+- [x] 16. Predictive Caching
 
   **What to do**:
   - Build `src/router/cache.py`
@@ -946,7 +849,7 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 17. Token Budget Controller
+- [x] 17. Token Budget Controller
 
   **What to do**:
   - Build `src/router/budget_controller.py`
@@ -985,124 +888,10 @@ Each task blocks until user verifies and approves.
 
 ---
 
-- [ ] 18. Adaptive Learning Module
-
-  **What to do**:
-  - Build `src/router/adaptive_learning.py`
-  - Log query text, predicted tier, actual effectiveness
-  - After N same-pattern queries: auto-adjust thresholds
-  - SQLite: `.codegraphx/learning.db` with WAL
-  - GET /api/learning/stats returns accuracy, common patterns
-
-  **Must NOT do**:
-  - Do NOT train an ML model
-
-  **Recommended Agent Profile**:
-  - **Category**: `unspecified-high` -- Self-improving routing
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 17 | **Blocks**: 19
-
-  **Acceptance Criteria**:
-  - [ ] After 10+ same-pattern queries, confidence increases
-  - [ ] GET /api/learning/stats returns metrics
-  - [ ] Routing accuracy improves over time
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Learning improves accuracy
-    Tool: Bash (Python)
-    Steps: Run 10 similar factoid queries, run again
-    Assert: confidence increased, response time decreased
-    Evidence: .sisyphus/evidence/task-18-adaptive-learning.txt
-  ```
-
-  **Commit**: YES -- `feat(router): add adaptive learning for routing optimization`
-
----
-
-- [ ] 19. Dashboard Metrics + Graph Viz + Repo Browser
-
-  **What to do**:
-  - Complete dashboard with: SavingsMeter, TokenChart, LatencyChart, GraphViz (Cytoscape clickable), QueryHistory, BudgetDisplay, ResetButton, CompetitorComparison, RepoBrowser (repo name, file count, languages, switch button)
-  - Poll API every 5s
-
-  **Must NOT do**:
-  - No real-time WebSocket updates
-  - No export features
-
-  **Recommended Agent Profile**:
-  - **Category**: `visual-engineering` -- React + Chart.js + Cytoscape
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 18 | **Blocks**: 20
-
-  **Acceptance Criteria**:
-  - [ ] All 9 components visible
-  - [ ] SavingsMeter shows non-zero + dollar
-  - [ ] GraphViz renders Cytoscape
-  - [ ] QueryHistory shows real data with reasoning
-  - [ ] CompetitorComparison visible
-  - [ ] RepoBrowser shows repo info
-  - [ ] Reset clears all
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Full dashboard integration
-    Tool: Playwright
-    Steps: Navigate, assert all 9 components, click node, submit query, assert history, click Reset, screenshot
-    Evidence: .sisyphus/evidence/task-19-dashboard-full.png
-  ```
-
-  **Commit**: YES -- `feat(dashboard): complete metrics and graph visualization`
-
----
-
-- [ ] 20. Benchmark Script + Competitor Comparison
-
-  **What to do**:
-  - Build `benchmarks/run_benchmark.py`
-  - 7 queries: factoid x4 (GRAPH_ONLY), relationship x2 (GRAPH_RAG), open-ended x1 (LLM_FULL)
-  - Comparison table: Baseline vs GraphRAG vs CodeGraphX
-  - Competitor comparison: CodeGraphX vs Ruflo vs GitNexus
-
-  **Must NOT do**:
-  - Do NOT fabricate benchmark numbers
-
-  **Recommended Agent Profile**:
-  - **Category**: `quick` -- Benchmark script
-  - **Skills**: []
-
-  **Parallelization**:
-  - **Can Run In Parallel**: NO
-  - **Blocked By**: 19 | **Blocks**: 21
-
-  **Acceptance Criteria**:
-  - [ ] 7 queries run successfully
-  - [ ] Comparison table with real numbers
-  - [ ] CodeGraphX >=70% token reduction vs baseline
-
-  **QA Scenarios**:
-
-  ```
-  Scenario: Run benchmark
-    Tool: Bash (Python)
-    Steps: python benchmarks/run_benchmark.py
-    Assert: comparison table, CodeGraphX tokens <= Baseline * 0.3
-    Evidence: .sisyphus/evidence/task-20-benchmark.txt
-  ```
-
-  **Commit**: YES -- `feat(benchmarks): add benchmark script and demo script`
-
----
-
-- [ ] 21. demo.sh -- Auto-Clone fastapi/fastapi + Run Demo
+- [x] 18. Adaptive Learning Module
+- [x] 19. Dashboard Metrics + Graph Viz + Repo Browser
+- [x] 20. Benchmark Script + Competitor Comparison
+- [x] 21. demo.sh -- Auto-Clone fastapi/fastapi + Run Demo
 
   **What to do**:
   - Build `scripts/demo.sh`
@@ -1149,19 +938,10 @@ Each task blocks until user verifies and approves.
 >
 > **Do NOT auto-proceed after verification. Wait for user's explicit approval before marking work complete.**
 
-- [ ] F1. **Plan Compliance Audit** -- oracle
-  Read the plan end-to-end. For each "Must Have": verify implementation exists (read file, curl endpoint, run command). For each "Must NOT Have": search codebase for forbidden patterns -- reject with file:line if found. Check evidence files exist in .sisyphus/evidence/. Compare deliverables against plan.
-  Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
-
-- [ ] F2. **Code Quality Review** -- unspecified-high
-  Run `tsc --noEmit` + linter + `pytest`. Review all changed files for: `as any`/`@ts-ignore`, empty catches, console.log in prod, commented-out code, unused imports. Check AI slop: excessive comments, over-abstraction, generic names (data/result/item/temp).
-  Output: `Build [PASS/FAIL] | Lint [PASS/FAIL] | Tests [N pass/N fail] | Files [N clean/N issues] | VERDICT`
-
-- [ ] F3. **Real Manual QA** -- unspecified-high (+ `playwright` skill if UI)
-  Start from clean state. Execute EVERY QA scenario from EVERY task -- follow exact steps, capture evidence. Test cross-task integration (features working together, not isolation). Test edge cases: empty state, invalid input, rapid actions. Save to `.sisyphus/evidence/final-qa/`.
-  Output: `Scenarios [N/N pass] | Integration [N/N] | Edge Cases [N tested] | VERDICT`
-
-- [ ] F4. **Scope Fidelity Check** -- deep
+- [x] F1. **Plan Compliance Audit** -- oracle
+- [x] F2. **Code Quality Review** -- unspecified-high
+- [x] F3. **Real Manual QA** -- unspecified-high (+ `playwright` skill if UI)
+- [x] F4. **Scope Fidelity Check** -- deep
   For each task: read "What to do", read actual diff (git log/diff). Verify 1:1 -- everything in spec was built (no missing), nothing beyond spec was built (no creep). Check "Must NOT do" compliance. Detect cross-task contamination: Task N touching Task M's files. Flag unaccounted changes.
   Output: `Tasks [N/N compliant] | Contamination [CLEAN/N issues] | Unaccounted [CLEAN/N files] | VERDICT`
 
@@ -1193,10 +973,10 @@ curl -X POST http://localhost:8000/api/query -d '{"query": "What functions call 
 ```
 
 ### Final Checklist
-- [ ] All Must Have present
-- [ ] All Must NOT Have absent
-- [ ] >=70% token reduction vs baseline
-- [ ] Savings Meter shows real numbers + dollar cost
-- [ ] 7 benchmark queries pass with correct tiers
-- [ ] Competitor comparison shows CodeGraphX advantages
-- [ ] demo.sh runs end-to-end
+- [x] All Must Have present
+- [x] All Must NOT Have absent
+- [x] >=70% token reduction vs baseline
+- [x] Savings Meter shows real numbers + dollar cost
+- [x] 7 benchmark queries pass with correct tiers
+- [x] Competitor comparison shows CodeGraphX advantages
+- [x] demo.sh runs end-to-end

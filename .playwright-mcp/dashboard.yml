@@ -1,0 +1,22 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e11]:
+    - generic [ref=e12]:
+      - button [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+      - heading "Home" [level=1] [ref=e15]:
+        - img [ref=e17]
+        - text: Home
+    - main [ref=e20]:
+      - tabpanel "Welcome to TigerGraph Savanna" [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: Quick Start
+          - generic [ref=e25]
+          - generic [ref=e125]: Add-Ons
+          - generic [ref=e127]
+          - generic [ref=e134]
+  - generic:
+    - button:
+      - img
+    - iframe
+  - button [ref=e6] [cursor=pointer]:
+    - img [ref=e7]

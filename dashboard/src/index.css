@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg-obsidian: #0B0E14;
+  --bg-surface: #0d1515;
+  --bg-surface-elevated: rgba(255, 255, 255, 0.05);
+  --color-primary: #00F0FF; /* Cyan */
+  --color-secondary: #A020F0; /* Purple */
+  --text-primary: #dce4e5;
+  --text-secondary: #b9cacb;
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --font-hero: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+  
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-obsidian);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-border);
+  border-radius: 12px;
+}
+
+.plasma-text {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.plasma-glow {
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.1), 0 0 80px rgba(160, 32, 240, 0.1);
+}
+
+.hero-number {
+  font-family: var(--font-hero);
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.label-caps {
+  font-family: var(--font-hero);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
