@@ -1,0 +1,7 @@
+fastapi==0.115.0
+uvicorn==0.32.0
+pydantic==2.9.0
+networkx==3.4.0
+# tree-sitter bindings removed to avoid native build failures on this host
+GitPython==3.1.0
+# tiktoken removed to avoid Rust/pyo3 builds in constrained host

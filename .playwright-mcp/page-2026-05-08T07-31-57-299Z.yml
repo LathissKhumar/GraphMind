@@ -1,0 +1,585 @@
+- generic [ref=e4]:
+  - generic [ref=e8]:
+    - generic [ref=e9]: "Version: 4.2.2"
+    - button "switch between apps" [ref=e11] [cursor=pointer]:
+      - img [ref=e12]
+    - generic [ref=e14]:
+      - button "user menu" [active] [ref=e15] [cursor=pointer]
+      - generic [ref=e586]:
+        - generic "codegraphx" [ref=e588]:
+          - img [ref=e589]
+          - generic [ref=e591]: codegraphx
+        - button "Log out" [ref=e592] [cursor=pointer]:
+          - generic [ref=e594]:
+            - img [ref=e595]
+            - generic [ref=e597]: Log out
+        - button "English 🇺🇸 English 🇨🇳 简体中文 🇯🇵 日本語" [ref=e598] [cursor=pointer]:
+          - generic [ref=e599]:
+            - generic [ref=e600]:
+              - img [ref=e601]
+              - generic [ref=e603]: English
+            - img [ref=e604]
+            - generic [ref=e606]:
+              - button "🇺🇸 English" [ref=e607]:
+                - generic [ref=e608]: 🇺🇸 English
+              - button "🇨🇳 简体中文" [ref=e609]:
+                - generic [ref=e610]: 🇨🇳 简体中文
+              - button "🇯🇵 日本語" [ref=e611]:
+                - generic [ref=e612]: 🇯🇵 日本語
+        - link "Help" [ref=e613] [cursor=pointer]:
+          - /url: https://docs.tigergraph.com/gui/current/admin-portal/overview
+          - generic [ref=e615]:
+            - img [ref=e616]
+            - generic [ref=e618]: Help
+        - link "Third-party notice" [ref=e619] [cursor=pointer]:
+          - /url: https://docs.tigergraph.com/gui/current/graphstudio/patent-and-third-party-notice
+          - generic [ref=e621]:
+            - img [ref=e622]
+            - generic [ref=e624]: Third-party notice
+        - button "About Database Version 4.2.2 Tools Version 2.1.2.895" [ref=e625] [cursor=pointer]:
+          - generic [ref=e626]:
+            - generic [ref=e627]:
+              - img [ref=e628]
+              - generic [ref=e630]: About
+            - img [ref=e631]
+            - generic [ref=e633]:
+              - generic [ref=e634]:
+                - img [ref=e635]
+                - generic [ref=e637]:
+                  - generic [ref=e638]: Database Version
+                  - generic [ref=e639]: 4.2.2
+              - generic [ref=e640]:
+                - img [ref=e641]
+                - generic [ref=e644]:
+                  - generic [ref=e645]: Tools Version
+                  - generic [ref=e646]: 2.1.2.895
+  - generic [ref=e17]:
+    - navigation [ref=e19]:
+      - tree [ref=e20]:
+        - treeitem "Dashboard" [level=1] [ref=e21]:
+          - listitem [ref=e22]:
+            - link "Dashboard" [ref=e23] [cursor=pointer]:
+              - /url: "#/dashboard"
+              - generic [ref=e24]:
+                - img [ref=e25]: dashboard
+                - paragraph [ref=e27]: Dashboard
+        - treeitem "toggle Management" [level=1] [ref=e28]:
+          - listitem [ref=e29]:
+            - generic "toggle Management" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]:
+                - img [ref=e33]: settings_applications
+                - paragraph [ref=e35]: Management
+                - img [ref=e36]: chevron_right
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - button "Refresh" [ref=e40] [cursor=pointer]:
+          - img [ref=e42]: refresh
+        - generic [ref=e43]:
+          - tablist [ref=e46]:
+            - generic [ref=e47]:
+              - tab "Overview" [selected] [ref=e48] [cursor=pointer]:
+                - generic [ref=e49]: Overview
+              - tab "Historic Cluster Monitoring" [ref=e50] [cursor=pointer]:
+                - generic [ref=e51]: Historic Cluster Monitoring
+          - generic:
+            - tabpanel "Overview"
+            - tabpanel "Historic Cluster Monitoring"
+      - generic [ref=e57]:
+        - generic [ref=e60]:
+          - generic [ref=e61]: Service Monitor
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - button "Dependency view" [ref=e64] [cursor=pointer]
+              - button "Table view" [ref=e65] [cursor=pointer]
+            - generic [ref=e66]:
+              - button "Start all" [disabled] [ref=e67]:
+                - img [ref=e68]
+                - generic [ref=e69]: Start all
+              - button "Restart all" [disabled] [ref=e70]:
+                - img [ref=e71]
+                - generic [ref=e72]: Restart all
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - generic:
+                - generic [ref=e85]:
+                  - generic [ref=e86]:
+                    - generic [ref=e87]:
+                      - generic [ref=e88]:
+                        - generic [ref=e89]: NGINX
+                        - button [ref=e90] [cursor=pointer]:
+                          - img [ref=e91]
+                      - group "button group" [ref=e92]:
+                        - checkbox [ref=e93] [cursor=pointer]:
+                          - img [ref=e94]
+                        - button [disabled] [ref=e647]:
+                          - img [ref=e648]
+                        - button [disabled] [ref=e649]:
+                          - img [ref=e650]
+                    - generic [ref=e95]:
+                      - generic "Online" [ref=e651]
+                      - generic [ref=e98]:
+                        - generic [ref=e99]: "Node : 1"
+                        - img "Down" [ref=e101] [cursor=pointer]
+                  - generic [ref=e652]:
+                    - generic [ref=e653]: NGINX#1
+                    - generic "Running" [ref=e655]
+                    - group "button group" [ref=e656]:
+                      - checkbox [ref=e657] [cursor=pointer]:
+                        - img [ref=e658]
+                      - button [disabled] [ref=e659]:
+                        - img [ref=e660]
+                - generic [ref=e113]:
+                  - generic [ref=e114]:
+                    - generic [ref=e115]:
+                      - generic [ref=e116]:
+                        - generic [ref=e117]: GSQL
+                        - button [ref=e118] [cursor=pointer]:
+                          - img [ref=e119]
+                      - group "button group" [ref=e120]:
+                        - checkbox [ref=e121] [cursor=pointer]:
+                          - img [ref=e122]
+                        - button [disabled] [ref=e661]:
+                          - img [ref=e662]
+                        - button [disabled] [ref=e663]:
+                          - img [ref=e664]
+                    - generic [ref=e123]:
+                      - generic "Online" [ref=e665]
+                      - generic [ref=e126]:
+                        - generic [ref=e127]: "Node : 1"
+                        - img "Down" [ref=e129] [cursor=pointer]
+                  - generic [ref=e666]:
+                    - generic [ref=e667]: GSQL#1
+                    - generic "Running" [ref=e669]
+                    - group "button group" [ref=e670]:
+                      - checkbox [ref=e671] [cursor=pointer]:
+                        - img [ref=e672]
+                      - button [disabled] [ref=e673]:
+                        - img [ref=e674]
+                - generic [ref=e141]:
+                  - generic [ref=e142]:
+                    - generic [ref=e143]:
+                      - generic [ref=e144]:
+                        - generic [ref=e145]: GUI
+                        - button [ref=e146] [cursor=pointer]:
+                          - img [ref=e147]
+                      - group "button group" [ref=e148]:
+                        - checkbox [ref=e149] [cursor=pointer]:
+                          - img [ref=e150]
+                        - button [disabled] [ref=e675]:
+                          - img [ref=e676]
+                        - button [disabled] [ref=e677]:
+                          - img [ref=e678]
+                    - generic [ref=e151]:
+                      - generic "Online" [ref=e679]
+                      - generic [ref=e154]:
+                        - generic [ref=e155]: "Node : 1"
+                        - img "Down" [ref=e157] [cursor=pointer]
+                  - generic [ref=e680]:
+                    - generic [ref=e681]: GUI#1
+                    - generic "Running" [ref=e683]
+                    - group "button group" [ref=e684]:
+                      - checkbox [ref=e685] [cursor=pointer]:
+                        - img [ref=e686]
+                      - button [disabled] [ref=e687]:
+                        - img [ref=e688]
+                - generic [ref=e169]:
+                  - generic [ref=e170]:
+                    - generic [ref=e171]:
+                      - generic [ref=e172]:
+                        - generic [ref=e173]: RESTPP
+                        - button [ref=e174] [cursor=pointer]:
+                          - img [ref=e175]
+                      - group "button group" [ref=e176]:
+                        - checkbox [ref=e177] [cursor=pointer]:
+                          - img [ref=e178]
+                        - button [disabled] [ref=e689]:
+                          - img [ref=e690]
+                        - button [disabled] [ref=e691]:
+                          - img [ref=e692]
+                    - generic [ref=e179]:
+                      - generic "Online" [ref=e693]
+                      - generic [ref=e182]:
+                        - generic [ref=e183]: "Node : 1"
+                        - img "Down" [ref=e185] [cursor=pointer]
+                  - generic [ref=e694]:
+                    - generic [ref=e695]: RESTPP#1
+                    - generic "Running" [ref=e697]
+                    - group "button group" [ref=e698]:
+                      - checkbox [ref=e699] [cursor=pointer]:
+                        - img [ref=e700]
+                      - button [disabled] [ref=e701]:
+                        - img [ref=e702]
+                - generic [ref=e189]:
+                  - heading "Message Queue" [level=3] [ref=e190]
+                  - generic [ref=e200]:
+                    - generic [ref=e201]:
+                      - generic [ref=e202]:
+                        - generic [ref=e203]:
+                          - generic [ref=e204]: KAFKACONN
+                          - button [ref=e205] [cursor=pointer]:
+                            - img [ref=e206]
+                        - group "button group" [ref=e207]:
+                          - checkbox [ref=e208] [cursor=pointer]:
+                            - img [ref=e209]
+                          - button [disabled] [ref=e703]:
+                            - img [ref=e704]
+                          - button [disabled] [ref=e705]:
+                            - img [ref=e706]
+                      - generic [ref=e210]:
+                        - generic "Online" [ref=e707]
+                        - generic [ref=e213]:
+                          - generic [ref=e214]: "Node : 1"
+                          - img "Down" [ref=e216] [cursor=pointer]
+                    - generic [ref=e708]:
+                      - generic [ref=e709]: KAFKACONN#1
+                      - generic "Running" [ref=e711]
+                      - group "button group" [ref=e712]:
+                        - checkbox [ref=e713] [cursor=pointer]:
+                          - img [ref=e714]
+                        - button [disabled] [ref=e715]:
+                          - img [ref=e716]
+                  - generic [ref=e228]:
+                    - generic [ref=e229]:
+                      - generic [ref=e230]:
+                        - generic [ref=e231]:
+                          - generic [ref=e232]: KAFKASTRMLL
+                          - button [ref=e233] [cursor=pointer]:
+                            - img [ref=e234]
+                        - group "button group" [ref=e235]:
+                          - checkbox [ref=e236] [cursor=pointer]:
+                            - img [ref=e237]
+                          - button [disabled] [ref=e717]:
+                            - img [ref=e718]
+                          - button [disabled] [ref=e719]:
+                            - img [ref=e720]
+                      - generic [ref=e238]:
+                        - generic "Online" [ref=e721]
+                        - generic [ref=e241]:
+                          - generic [ref=e242]: "Node : 1"
+                          - img "Down" [ref=e244] [cursor=pointer]
+                    - generic [ref=e722]:
+                      - generic [ref=e723]: KAFKASTRM-LL_1
+                      - generic "Running" [ref=e725]
+                      - group "button group" [ref=e726]:
+                        - checkbox [ref=e727] [cursor=pointer]:
+                          - img [ref=e728]
+                        - button [disabled] [ref=e729]:
+                          - img [ref=e730]
+                  - generic [ref=e256]:
+                    - generic [ref=e257]:
+                      - generic [ref=e258]:
+                        - generic [ref=e259]:
+                          - generic [ref=e260]: KAFKA
+                          - button [ref=e261] [cursor=pointer]:
+                            - img [ref=e262]
+                        - group "button group" [ref=e263]:
+                          - checkbox [ref=e264] [cursor=pointer]:
+                            - img [ref=e265]
+                          - button [disabled] [ref=e731]:
+                            - img [ref=e732]
+                          - button [disabled] [ref=e733]:
+                            - img [ref=e734]
+                      - generic [ref=e266]:
+                        - generic "Online" [ref=e735]
+                        - generic [ref=e269]:
+                          - generic [ref=e270]: "Node : 1"
+                          - img "Down" [ref=e272] [cursor=pointer]
+                    - generic [ref=e736]:
+                      - generic [ref=e737]: KAFKA#1
+                      - generic "Running" [ref=e739]
+                      - group "button group" [ref=e740]:
+                        - checkbox [ref=e741] [cursor=pointer]:
+                          - img [ref=e742]
+                        - button [disabled] [ref=e743]:
+                          - img [ref=e744]
+                  - generic [ref=e284]:
+                    - generic [ref=e285]:
+                      - generic [ref=e286]:
+                        - generic [ref=e287]:
+                          - generic [ref=e288]: ZK
+                          - button [ref=e289] [cursor=pointer]:
+                            - img [ref=e290]
+                        - group "button group" [ref=e291]:
+                          - checkbox [ref=e292] [cursor=pointer]:
+                            - img [ref=e293]
+                          - button [disabled] [ref=e745]:
+                            - img [ref=e746]
+                          - button [disabled] [ref=e747]:
+                            - img [ref=e748]
+                      - generic [ref=e294]:
+                        - generic "Online" [ref=e749]
+                        - generic [ref=e297]:
+                          - generic [ref=e298]: "Node : 1"
+                          - img "Down" [ref=e300] [cursor=pointer]
+                    - generic [ref=e750]:
+                      - generic [ref=e751]: ZK#1
+                      - generic "Running" [ref=e753]
+                      - group "button group" [ref=e754]:
+                        - checkbox [ref=e755] [cursor=pointer]:
+                          - img [ref=e756]
+                        - button [disabled] [ref=e757]:
+                          - img [ref=e758]
+                  - generic [ref=e312]:
+                    - generic [ref=e313]:
+                      - generic [ref=e314]:
+                        - generic [ref=e315]:
+                          - generic [ref=e316]: ETCD
+                          - button [ref=e317] [cursor=pointer]:
+                            - img [ref=e318]
+                        - group "button group" [ref=e319]:
+                          - checkbox [ref=e320] [cursor=pointer]:
+                            - img [ref=e321]
+                          - button [disabled] [ref=e759]:
+                            - img [ref=e760]
+                          - button [disabled] [ref=e761]:
+                            - img [ref=e762]
+                      - generic [ref=e322]:
+                        - generic "Online" [ref=e763]
+                        - generic [ref=e325]:
+                          - generic [ref=e326]: "Node : 1"
+                          - img "Down" [ref=e328] [cursor=pointer]
+                    - generic [ref=e764]:
+                      - generic [ref=e765]: ETCD#1
+                      - generic "Running" [ref=e767]
+                      - group "button group" [ref=e768]:
+                        - checkbox [ref=e769] [cursor=pointer]:
+                          - img [ref=e770]
+                        - button [disabled] [ref=e771]:
+                          - img [ref=e772]
+                - generic [ref=e340]:
+                  - generic [ref=e341]:
+                    - generic [ref=e342]:
+                      - generic [ref=e343]:
+                        - generic [ref=e344]: DICT
+                        - button [ref=e345] [cursor=pointer]:
+                          - img [ref=e346]
+                      - group "button group" [ref=e347]:
+                        - checkbox [ref=e348] [cursor=pointer]:
+                          - img [ref=e349]
+                        - button [disabled] [ref=e773]:
+                          - img [ref=e774]
+                        - button [disabled] [ref=e775]:
+                          - img [ref=e776]
+                    - generic [ref=e350]:
+                      - generic "Online" [ref=e777]
+                      - generic [ref=e353]:
+                        - generic [ref=e354]: "Node : 1"
+                        - img "Down" [ref=e356] [cursor=pointer]
+                  - generic [ref=e778]:
+                    - generic [ref=e779]: DICT#1
+                    - generic "Running" [ref=e781]
+                    - group "button group" [ref=e782]:
+                      - checkbox [ref=e783] [cursor=pointer]:
+                        - img [ref=e784]
+                      - button [disabled] [ref=e785]:
+                        - img [ref=e786]
+                - generic [ref=e368]:
+                  - generic [ref=e369]:
+                    - generic [ref=e370]:
+                      - generic [ref=e371]:
+                        - generic [ref=e372]: GSE
+                        - button [ref=e373] [cursor=pointer]:
+                          - img [ref=e374]
+                      - group "button group" [ref=e375]:
+                        - checkbox [ref=e376] [cursor=pointer]:
+                          - img [ref=e377]
+                        - button [disabled] [ref=e787]:
+                          - img [ref=e788]
+                        - button [disabled] [ref=e789]:
+                          - img [ref=e790]
+                    - generic [ref=e378]:
+                      - generic "Online" [ref=e791]
+                      - generic [ref=e381]:
+                        - generic [ref=e382]: "Node : 1"
+                        - img "Down" [ref=e384] [cursor=pointer]
+                  - generic [ref=e792]:
+                    - generic [ref=e793]: GSE_1#1
+                    - generic "Running" [ref=e795]
+                    - group "button group" [ref=e796]:
+                      - checkbox [ref=e797] [cursor=pointer]:
+                        - img [ref=e798]
+                      - button [disabled] [ref=e799]:
+                        - img [ref=e800]
+                - generic [ref=e396]:
+                  - generic [ref=e397]:
+                    - generic [ref=e398]:
+                      - generic [ref=e399]:
+                        - generic [ref=e400]: GPE
+                        - button [ref=e401] [cursor=pointer]:
+                          - img [ref=e402]
+                      - group "button group" [ref=e403]:
+                        - checkbox [ref=e404] [cursor=pointer]:
+                          - img [ref=e405]
+                        - button [disabled] [ref=e801]:
+                          - img [ref=e802]
+                        - button [disabled] [ref=e803]:
+                          - img [ref=e804]
+                    - generic [ref=e406]:
+                      - generic "Online" [ref=e805]
+                      - generic [ref=e409]:
+                        - generic [ref=e410]: "Node : 1"
+                        - img "Down" [ref=e412] [cursor=pointer]
+                  - generic [ref=e806]:
+                    - generic [ref=e807]: GPE_1#1
+                    - generic "Running" [ref=e809]
+                    - group "button group" [ref=e810]:
+                      - checkbox [ref=e811] [cursor=pointer]:
+                        - img [ref=e812]
+                      - button [disabled] [ref=e813]:
+                        - img [ref=e814]
+                - generic [ref=e416]:
+                  - heading "Cluster Management" [level=3] [ref=e417]
+                  - generic [ref=e427]:
+                    - generic [ref=e428]:
+                      - generic [ref=e429]:
+                        - generic [ref=e430]:
+                          - generic [ref=e431]: INFORMANT
+                          - button [ref=e432] [cursor=pointer]:
+                            - img [ref=e433]
+                        - group "button group" [ref=e434]:
+                          - checkbox [ref=e435] [cursor=pointer]:
+                            - img [ref=e436]
+                          - button [disabled] [ref=e815]:
+                            - img [ref=e816]
+                          - button [disabled] [ref=e817]:
+                            - img [ref=e818]
+                      - generic [ref=e437]:
+                        - generic "Online" [ref=e819]
+                        - generic [ref=e440]:
+                          - generic [ref=e441]: "Node : 1"
+                          - img "Down" [ref=e443] [cursor=pointer]
+                    - generic [ref=e820]:
+                      - generic [ref=e821]: IFM#1
+                      - generic "Running" [ref=e823]
+                      - group "button group" [ref=e824]:
+                        - checkbox [ref=e825] [cursor=pointer]:
+                          - img [ref=e826]
+                        - button [disabled] [ref=e827]:
+                          - img [ref=e828]
+                  - generic [ref=e455]:
+                    - generic [ref=e456]:
+                      - generic [ref=e457]:
+                        - generic [ref=e458]:
+                          - generic [ref=e459]: ADMIN
+                          - button [ref=e460] [cursor=pointer]:
+                            - img [ref=e461]
+                        - group "button group" [ref=e462]:
+                          - checkbox [ref=e463] [cursor=pointer]:
+                            - img [ref=e464]
+                          - button [disabled] [ref=e829]:
+                            - img [ref=e830]
+                          - button [disabled] [ref=e831]:
+                            - img [ref=e832]
+                      - generic [ref=e465]:
+                        - generic "Online" [ref=e833]
+                        - generic [ref=e468]:
+                          - generic [ref=e469]: "Node : 1"
+                          - img "Down" [ref=e471] [cursor=pointer]
+                    - generic [ref=e834]:
+                      - generic [ref=e835]: ADMIN#1
+                      - generic "Running" [ref=e837]
+                      - group "button group" [ref=e838]:
+                        - checkbox [ref=e839] [cursor=pointer]:
+                          - img [ref=e840]
+                        - button [disabled] [ref=e841]:
+                          - img [ref=e842]
+                  - generic [ref=e483]:
+                    - generic [ref=e484]:
+                      - generic [ref=e485]:
+                        - generic [ref=e486]:
+                          - generic [ref=e487]: CONTROLLER
+                          - button [ref=e488] [cursor=pointer]:
+                            - img [ref=e489]
+                        - group "button group" [ref=e490]:
+                          - checkbox [ref=e491] [cursor=pointer]:
+                            - img [ref=e492]
+                          - button [disabled] [ref=e843]:
+                            - img [ref=e844]
+                          - button [disabled] [ref=e845]:
+                            - img [ref=e846]
+                      - generic [ref=e493]:
+                        - generic "Online" [ref=e847]
+                        - generic [ref=e496]:
+                          - generic [ref=e497]: "Node : 1"
+                          - img "Down" [ref=e499] [cursor=pointer]
+                    - generic [ref=e848]:
+                      - generic [ref=e849]: CTRL#1
+                      - generic "Running" [ref=e851]
+                      - group "button group" [ref=e852]:
+                        - checkbox [ref=e853] [cursor=pointer]:
+                          - img [ref=e854]
+                        - button [disabled] [ref=e855]:
+                          - img [ref=e856]
+                  - generic [ref=e511]:
+                    - generic [ref=e512]:
+                      - generic [ref=e513]:
+                        - generic [ref=e514]:
+                          - generic [ref=e515]: EXE
+                          - button [ref=e516] [cursor=pointer]:
+                            - img [ref=e517]
+                        - group "button group" [ref=e518]:
+                          - checkbox [ref=e519] [cursor=pointer]:
+                            - img [ref=e520]
+                          - button [disabled] [ref=e857]:
+                            - img [ref=e858]
+                          - button [disabled] [ref=e859]:
+                            - img [ref=e860]
+                      - generic [ref=e521]:
+                        - generic "Online" [ref=e861]
+                        - generic [ref=e524]:
+                          - generic [ref=e525]: "Node : 1"
+                          - img "Down" [ref=e527] [cursor=pointer]
+                    - generic [ref=e862]:
+                      - generic [ref=e863]: EXE_1
+                      - generic "Running" [ref=e865]
+                      - group "button group" [ref=e866]:
+                        - checkbox [ref=e867] [cursor=pointer]:
+                          - img [ref=e868]
+                        - button [disabled] [ref=e869]:
+                          - img [ref=e870]
+              - img
+            - img [ref=e551]
+            - generic [ref=e553]:
+              - button [ref=e554] [cursor=pointer]:
+                - img [ref=e555]
+              - button [ref=e556] [cursor=pointer]:
+                - img [ref=e557]
+              - button [ref=e558] [cursor=pointer]:
+                - img [ref=e559]
+        - generic [ref=e562]:
+          - generic [ref=e563]: Resource Monitor
+          - generic [ref=e566]:
+            - generic [ref=e568]:
+              - generic [ref=e569]: Nodes in cluster
+              - generic [ref=e570]: "1"
+            - generic [ref=e572]:
+              - generic [ref=e573]: Graphs
+              - generic [ref=e574]: "0"
+          - grid [ref=e577]:
+            - row "Node Status CPU (%) Memory (GB) Disk (GB) Actions" [ref=e578]:
+              - columnheader "Node" [ref=e579]
+              - columnheader "Status" [ref=e580]
+              - columnheader "CPU (%)" [ref=e581]
+              - columnheader "Memory (GB)" [ref=e582]
+              - columnheader "Disk (GB)" [ref=e583]
+              - columnheader "Actions" [ref=e584]
+            - rowgroup [ref=e585]:
+              - row "m1 Online 30.58% 30.577091 2.36GB 5.57GB" [ref=e871]:
+                - gridcell "m1" [ref=e872]:
+                  - generic [ref=e873] [cursor=pointer]: m1
+                - gridcell "Online" [ref=e874]:
+                  - generic "Online" [ref=e877]
+                - gridcell "30.58% 30.577091" [ref=e878]:
+                  - generic [ref=e880]:
+                    - generic [ref=e881]: 30.58%
+                    - progressbar "31% Loaded" [ref=e882]
+                - gridcell "2.36GB" [ref=e886]:
+                  - generic [ref=e887]: 2.36GB
+                - gridcell "5.57GB" [ref=e888]:
+                  - generic [ref=e889]: 5.57GB
+                - gridcell [ref=e890]:
+                  - generic [ref=e892]:
+                    - button [ref=e893] [cursor=pointer]:
+                      - img [ref=e894]
+                    - button [ref=e895] [cursor=pointer]:
+                      - img [ref=e896]

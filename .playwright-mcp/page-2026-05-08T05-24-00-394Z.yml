@@ -1,0 +1,85 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e11]:
+    - generic [ref=e12]:
+      - button [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+      - heading "My Workgroups" [level=1] [ref=e337]:
+        - img [ref=e17]
+        - text: My Workgroups
+    - main [ref=e20]:
+      - generic [ref=e338]:
+        - generic [ref=e339]:
+          - tablist [ref=e340]:
+            - tab "General" [selected] [ref=e341] [cursor=pointer]
+            - tab "Workspace" [ref=e342] [cursor=pointer]
+            - tab "Database" [ref=e343] [cursor=pointer]
+            - tab "Monitor" [ref=e344] [cursor=pointer]
+            - tab "Solution" [ref=e345] [cursor=pointer]
+            - tab "Data Profile" [ref=e346] [cursor=pointer]
+            - tab "Access Management" [ref=e347] [cursor=pointer]
+            - tab "Backup And Restore" [ref=e348] [cursor=pointer]
+            - tab "Network Access" [ref=e349] [cursor=pointer]
+          - tabpanel "General" [ref=e352]:
+            - generic [ref=e354]:
+              - generic [ref=e356]:
+                - generic [ref=e357]:
+                  - img [ref=e359]
+                  - generic [ref=e362]: CodeGraphX
+                - generic [ref=e363]:
+                  - text: AP-SOUTHEAST-1
+                  - generic [ref=e364]:
+                    - img [ref=e365]
+                    - text: aws
+                - button [ref=e369] [cursor=pointer]:
+                  - img [ref=e371]
+              - generic [ref=e374]:
+                - generic [ref=e375]: Database
+                - generic [ref=e377]:
+                  - generic [ref=e378]: Workspace
+                  - button "create workspace" [ref=e379] [cursor=pointer]:
+                    - img "Plus" [ref=e381]
+                    - text: Create
+              - generic [ref=e386]:
+                - generic:
+                  - generic:
+                    - img:
+                      - img "Edge from 81e25885-c3d8-4ad6-83d7-9ed1046c858f to 12c540c6-6b2b-4caf-99fe-080d2afe67da" [ref=e387] [cursor=pointer]:
+                        - generic [ref=e388]:
+                          - generic: R/W
+                  - generic:
+                    - button "Database-1 Overflow" [ref=e390] [cursor=pointer]:
+                      - generic [ref=e392]:
+                        - img [ref=e394]
+                        - button "Database-1" [ref=e398]
+                        - button "Overflow" [ref=e399]:
+                          - img "Overflow" [ref=e400]
+                    - button "CodeGraphX workspace-status TG-00 Connect Down Overflow" [ref=e404] [cursor=pointer]:
+                      - generic [ref=e405]:
+                        - generic [ref=e406]:
+                          - img [ref=e408]
+                          - button "CodeGraphX" [ref=e411]
+                          - button "workspace-status" [ref=e413]:
+                            - generic "workspace-status" [ref=e414]
+                        - generic [ref=e415]:
+                          - generic [ref=e417]: TG-00
+                          - button "Connect Down" [ref=e418]:
+                            - generic [ref=e419]: Connect
+                            - img "Down" [ref=e421]
+                          - button "Overflow" [ref=e423]:
+                            - img "Overflow" [ref=e424]
+        - button [ref=e431] [cursor=pointer]:
+          - img [ref=e432]
+      - generic:
+        - img
+      - generic [ref=e437]:
+        - generic [ref=e438]:
+          - generic [ref=e439]: Workspace Configuration
+          - button "Delete" [ref=e440] [cursor=pointer]:
+            - img "Delete" [ref=e441]
+        - generic [ref=e443]: Click here to access workspace settings including configuration, access management, and monitoring.
+  - generic:
+    - button:
+      - img
+    - iframe
+  - button [ref=e6] [cursor=pointer]:
+    - img [ref=e7]

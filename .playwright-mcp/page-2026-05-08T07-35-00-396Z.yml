@@ -1,0 +1,131 @@
+- generic [ref=e4]:
+  - generic [ref=e8]:
+    - generic [ref=e9]: "Version: 4.2.2"
+    - generic [ref=e10] [cursor=pointer]:
+      - button "switch between apps" [ref=e11]:
+        - img [ref=e12]
+      - generic [ref=e1039]:
+        - generic [ref=e1040]:
+          - link [ref=e1042]:
+            - /url: /studio/
+          - link [ref=e1045]:
+            - /url: /insights/
+          - link [ref=e1048]:
+            - /url: /gsql/
+          - link [ref=e1051]:
+            - /url: /admin/
+          - link [ref=e1054]:
+            - /url: /graphql/
+        - link "Go to TigerGraph Suite" [ref=e1056]:
+          - /url: /
+    - button "user menu" [ref=e15] [cursor=pointer]
+  - generic [ref=e17]:
+    - navigation [ref=e19]:
+      - tree [ref=e20]:
+        - treeitem "Dashboard" [level=1] [ref=e21]:
+          - listitem [ref=e22]:
+            - link "Dashboard" [ref=e23] [cursor=pointer]:
+              - /url: "#/dashboard"
+              - generic [ref=e24]:
+                - img [ref=e25]: dashboard
+                - paragraph [ref=e27]: Dashboard
+        - treeitem "toggle Management Users" [expanded] [level=1] [ref=e897]:
+          - listitem [ref=e29]:
+            - generic "toggle Management" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]:
+                - img [ref=e33]: settings_applications
+                - paragraph [ref=e35]: Management
+                - img [ref=e36]: expand_more
+            - list [ref=e898]:
+              - treeitem "Users" [expanded] [level=2] [ref=e899]:
+                - listitem [ref=e900]:
+                  - link "Users" [ref=e901] [cursor=pointer]:
+                    - /url: "#/management/users"
+                    - paragraph [ref=e904]: Users
+    - generic [ref=e906]:
+      - button [ref=e908] [cursor=pointer]:
+        - img [ref=e910]: refresh
+      - generic [ref=e911]:
+        - tablist [ref=e914]:
+          - generic [ref=e915]:
+            - tab "My Profile" [selected] [ref=e916] [cursor=pointer]:
+              - generic [ref=e917]: My Profile
+            - tab "All Users" [disabled] [ref=e918]:
+              - generic [ref=e919]: All Users
+            - tab "User-defined Roles" [disabled] [ref=e920]:
+              - generic [ref=e922]: User-defined Roles
+            - tab "Role Management" [disabled] [ref=e923]:
+              - generic [ref=e924]: Role Management
+        - generic [ref=e926]:
+          - tabpanel "My Profile" [ref=e927]:
+            - contentinfo "User profile" [ref=e931]:
+              - generic [ref=e932]:
+                - generic "Username" [ref=e933]:
+                  - generic [ref=e934]:
+                    - img [ref=e936]:
+                      - img [ref=e937]
+                    - generic [ref=e942]:
+                      - generic [ref=e943]: Username
+                      - generic [ref=e944]: codegraphx
+                - generic "Accessible Graphs" [ref=e945]:
+                  - generic [ref=e946]:
+                    - img [ref=e948]:
+                      - img [ref=e949]
+                    - generic [ref=e953]:
+                      - generic [ref=e954]: Accessible Graphs
+                      - generic [ref=e955]: "0"
+                - generic "Password" [ref=e956]:
+                  - generic [ref=e957]:
+                    - img [ref=e959]:
+                      - img [ref=e960]
+                    - generic [ref=e964]:
+                      - generic [ref=e965]:
+                        - text: Password
+                        - button [ref=e966] [cursor=pointer]:
+                          - img [ref=e968]: vpn_key
+                      - generic [ref=e969]: "**********"
+              - generic [ref=e970]:
+                - generic [ref=e973]: Secrets
+                - generic [ref=e975]:
+                  - table [ref=e976]:
+                    - rowgroup [ref=e977]:
+                      - row "Secret Alias Secret Value Actions" [ref=e978]:
+                        - columnheader "Secret Alias" [ref=e979]
+                        - columnheader "Secret Value" [ref=e980]
+                        - columnheader "Actions" [ref=e981]
+                    - rowgroup
+                    - rowgroup [ref=e982]:
+                      - row "graphmind-key Enter a secret alias Add secret" [ref=e1057]:
+                        - cell "graphmind-key Enter a secret alias" [ref=e1058]:
+                          - generic [ref=e987]:
+                            - generic [ref=e989]:
+                              - textbox "Enter a secret alias" [active] [ref=e990]: graphmind-key
+                              - generic:
+                                - generic: Enter a secret alias *
+                            - alert [ref=e1059]: Alias can only contain alphanumeric and underscore characters
+                        - cell [ref=e991]:
+                          - paragraph
+                        - cell "Add secret" [ref=e992]:
+                          - button "Add secret" [disabled] [ref=e993]:
+                            - generic [ref=e994]:
+                              - img [ref=e995]: add
+                              - text: Add secret
+                  - group [ref=e996]:
+                    - generic [ref=e998]:
+                      - generic [ref=e999]:
+                        - generic [ref=e1000]: "Items per page:"
+                        - combobox "Items per page:" [ref=e1005] [cursor=pointer]:
+                          - generic [ref=e1008]: "5"
+                      - generic [ref=e1011]:
+                        - generic [ref=e1012]: 0 of 0
+                        - button "First page" [disabled] [ref=e1013]:
+                          - img [ref=e1015]
+                        - button "Previous page" [disabled] [ref=e1017]:
+                          - img [ref=e1019]
+                        - button "Next page" [disabled] [ref=e1021]:
+                          - img [ref=e1023]
+                        - button "Last page" [disabled] [ref=e1025]:
+                          - img [ref=e1027]
+          - tabpanel "All Users" [ref=e1029]
+          - tabpanel "User-defined Roles" [ref=e1031]
+          - tabpanel "Role Management" [ref=e1033]

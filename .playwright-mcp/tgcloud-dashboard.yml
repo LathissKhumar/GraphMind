@@ -1,0 +1,55 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - main [ref=e4]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - img "TigerGraph Inc."
+          - heading "Welcome" [level=1] [ref=e9]
+          - paragraph [ref=e11]: Log in to TigerGraph Inc. to continue to TigerGraph Savanna.
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - generic [ref=e15]:
+              - generic [ref=e17]:
+                - generic [ref=e18]: Email address *
+                - textbox "Email address" [active] [ref=e19]
+              - generic [ref=e21]:
+                - generic [ref=e22]: Password *
+                - textbox "Password" [ref=e23]
+                - switch "Show password" [ref=e24] [cursor=pointer]
+              - status [ref=e27]
+            - paragraph [ref=e28]:
+              - link "Forgot password?" [ref=e29] [cursor=pointer]:
+                - /url: /u/login/password-reset-start/Username-Password-Authentication?state=hKFo2SBjNGdMSW4yLVZ6Z1FEeFBYRW5tYzZUeXluQkJNQjBRSqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEROZFdFMXR2emtScDBtNU9iM2U5QXpWSUJjb2N0ekZjo2NpZNkgUDBZTVdab01WbnNHVk8yWHc5ZWtqNjNPRU4zUXR1bHU
+            - button "Continue" [ref=e31] [cursor=pointer]
+          - paragraph [ref=e33]:
+            - text: Don't have an account?
+            - link "Sign up" [ref=e34] [cursor=pointer]:
+              - /url: /u/signup?state=hKFo2SBjNGdMSW4yLVZ6Z1FEeFBYRW5tYzZUeXluQkJNQjBRSqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEROZFdFMXR2emtScDBtNU9iM2U5QXpWSUJjb2N0ekZjo2NpZNkgUDBZTVdab01WbnNHVk8yWHc5ZWtqNjNPRU4zUXR1bHU
+          - generic [ref=e36]: Or
+          - button "Continue with Google" [ref=e39] [cursor=pointer]:
+            - generic [ref=e41]: Continue with Google
+    - generic [ref=e42]:
+      - generic [ref=e43]: or
+      - link "Login with organization" [ref=e44] [cursor=pointer]:
+        - /url: https://tgcloud.io?isOrgLogin=true
+  - generic [ref=e46]:
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: Set up Your Free
+        - paragraph [ref=e50]: TigerGraph Savanna in
+        - paragraph [ref=e51]: Just a Few Clicks!
+      - generic [ref=e52]:
+        - generic [ref=e53]: Spin up a graph database in the cloud and start experimenting and
+        - generic [ref=e54]: prototyping at no cost. As your needs grow, easily
+        - generic [ref=e55]: scale up to larger production environments.
+    - generic [ref=e56]:
+      - generic [ref=e57]: "-> Trusted by Global Enterprises:"
+      - generic [ref=e58]:
+        - img [ref=e60]
+        - img [ref=e71]
+        - img [ref=e76]
+        - img [ref=e81]
+        - img [ref=e84]
+        - img [ref=e93]
+        - img [ref=e96]
+        - img [ref=e99]
