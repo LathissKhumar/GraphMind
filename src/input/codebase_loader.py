@@ -1,210 +1,125 @@
 import os
-import shutil
-import tempfile
 import zipfile
-import git
-from git.exc import GitCommandError, GitCommandNotFound
-from pathlib import Path
+import tempfile
+import shutil
+from git import Repo, GitCommandError
 from urllib.parse import urlparse
-from typing import TypedDict
+from typing import Dict, Any, Tuple, List
+import logging
 
-from pygments.lexers import get_lexer_for_filename, guess_lexer_for_filename
-
-
-CODEBASE_LIMIT = int(os.getenv("CODEBASE_LIMIT", "500"))
-ZIP_SIZE_LIMIT = int(os.getenv("ZIP_SIZE_LIMIT", "10485760"))
-
-
-class LoadResult(TypedDict):
-    status: str
-    repo_name: str
-    path: str
-    file_count: int
-    total_files: int
-    languages: list[str]
-    source: str
-    cloned_from: str
-
+logger = logging.getLogger(__name__)
 
 class CodebaseLoader:
-    def __init__(self, storage_dir: str = ".codebase"):
-        self.storage_dir: Path = Path(storage_dir)
-        self.storage_dir.mkdir(exist_ok=True)
-
-    def load_from_git(self, url: str) -> LoadResult:
-        if not self._is_valid_github_url(url):
-            raise ValueError(f"Invalid GitHub URL: {url}")
-
-        repo_name = self._extract_repo_name(url)
-        target_dir = self.storage_dir / repo_name
-
-        if target_dir.exists():
-            shutil.rmtree(target_dir, ignore_errors=True)
-
-        try:
-            git.Repo.clone_from(url, target_dir, depth=1, single_branch=True)
-        except GitCommandNotFound as e:
-            raise RuntimeError(f"Git not found on system: {e}") from e
-        except GitCommandError as e:
-            raise RuntimeError(f"Failed to clone repository: {e}") from e
-        except Exception as e:
-            if target_dir.exists():
-                shutil.rmtree(target_dir, ignore_errors=True)
-            raise RuntimeError(f"Failed to clone repository: {e}") from e
-
-        total_files = self._count_files(target_dir)
-        languages = self._detect_languages(target_dir)
-
-        return {
-            "status": "success",
-            "repo_name": repo_name,
-            "path": str(target_dir),
-            "file_count": min(total_files, CODEBASE_LIMIT),
-            "total_files": total_files,
-            "languages": languages,
-            "source": "git",
-            "cloned_from": url,
+    def __init__(self):
+        self.max_files = int(os.environ.get('CODEBASE_LIMIT', 500))
+        self.max_zip_size = int(os.environ.get('ZIP_SIZE_LIMIT', 10485760)) # 10MB
+        self.allowed_extensions = {
+            '.py': 'Python',
+            '.js': 'JavaScript',
+            '.jsx': 'JavaScript',
+            '.ts': 'TypeScript',
+            '.tsx': 'TypeScript',
+            '.go': 'Go',
+            '.rs': 'Rust',
+            '.java': 'Java',
+            '.c': 'C',
+            '.cpp': 'C++',
+            '.h': 'C/C++ Header',
+            '.cs': 'C#'
         }
-
-    def load_from_zip(self, zip_path: str) -> LoadResult:
-        path = Path(zip_path)
-
-        if not path.exists():
-            raise FileNotFoundError(f"ZIP file not found: {zip_path}")
-
-        if not zipfile.is_zipfile(path):
-            raise ValueError(f"Not a valid ZIP file: {zip_path}")
-
-        file_size = path.stat().st_size
-        if file_size > ZIP_SIZE_LIMIT:
-            limit_mb = ZIP_SIZE_LIMIT / (1024 * 1024)
-            raise ValueError(
-                f"ZIP file too large: {file_size / (1024 * 1024):.1f}MB (max: {limit_mb:.1f}MB)"
-            )
-
-        with zipfile.ZipFile(path, "r") as zf:
-            bad_file = zf.testzip()
-            if bad_file is not None:
-                raise ValueError(f"Corrupt ZIP: bad member '{bad_file}'")
-
-            members = zf.namelist()
-            file_members = [m for m in members if not m.endswith("/")]
-            total_files = len(file_members)
-
-            if total_files > CODEBASE_LIMIT * 10:
-                max_files = CODEBASE_LIMIT * 10
-                raise ValueError(
-                    f"Too many files in ZIP: {total_files} (max: {max_files})"
-                )
-
-            top_level = self._get_top_level_name(members)
-            final_dir = self.storage_dir / top_level
-
-            if final_dir.exists():
-                shutil.rmtree(final_dir, ignore_errors=True)
-
-            staging_dir = Path(tempfile.mkdtemp(dir=self.storage_dir, prefix=".zip_staging_"))
-            try:
-                for member in members:
-                    resolved = self._safe_extract_path(staging_dir, member)
-                    if member.endswith("/"):
-                        resolved.mkdir(parents=True, exist_ok=True)
-                    else:
-                        resolved.parent.mkdir(parents=True, exist_ok=True)
-                        with zf.open(member) as src, open(resolved, "wb") as dst:
-                            shutil.copyfileobj(src, dst)
-
-                shutil.move(str(staging_dir / top_level), str(final_dir))
-            except Exception as e:
-                if final_dir.exists():
-                    shutil.rmtree(final_dir, ignore_errors=True)
-                raise RuntimeError(f"Failed to extract ZIP: {e}") from e
-            finally:
-                if staging_dir.exists():
-                    shutil.rmtree(staging_dir, ignore_errors=True)
-
-        total_files = self._count_files(final_dir)
-        languages = self._detect_languages(final_dir)
-
-        return {
-            "status": "success",
-            "repo_name": top_level,
-            "path": str(final_dir),
-            "file_count": min(total_files, CODEBASE_LIMIT),
-            "total_files": total_files,
-            "languages": languages,
-            "source": "zip",
-            "cloned_from": "",
-        }
-
-    def _safe_extract_path(self, base_dir: Path, member: str) -> Path:
-        resolved = (base_dir / member).resolve()
-        base_resolved = base_dir.resolve()
-
-        if not str(resolved).startswith(str(base_resolved) + os.sep) and resolved != base_resolved:
-            raise ValueError(f"ZipSlip detected: '{member}' escapes extraction directory")
-
-        if ".." in Path(member).parts:
-            raise ValueError(f"Unsafe path in ZIP member: '{member}'")
-
-        return resolved
 
     def _is_valid_github_url(self, url: str) -> bool:
         try:
             parsed = urlparse(url)
+            return parsed.scheme in ['http', 'https'] and parsed.netloc in ['github.com', 'www.github.com']
         except Exception:
             return False
-        if parsed.netloc not in ("github.com", "www.github.com"):
-            return False
-        parts = parsed.path.strip("/").split("/")
-        return len(parts) == 2 and all(parts)
 
-    def _extract_repo_name(self, url: str) -> str:
-        parsed = urlparse(url)
-        path = parsed.path.rstrip("/")
-        if path.endswith(".git"):
-            path = path[:-4]
-        return path.lstrip("/").replace("/", "_")
+    def load_from_git(self, url: str) -> Dict[str, Any]:
+        """Clone GitHub repo, return path and stats."""
+        if not self._is_valid_github_url(url):
+            return {"status": "error", "message": "Invalid GitHub URL."}
 
-    def _count_files(self, directory: Path) -> int:
-        count = 0
-        for root, dirs, files in os.walk(directory):
-            dir_parts = Path(root).parts
-            if "__pycache__" in dir_parts or ".git" in dir_parts:
-                dirs.clear()
+        try:
+            # Create a temporary directory for the clone
+            extract_path = tempfile.mkdtemp(prefix="codegraphx_git_")
+            
+            # Shallow clone, no submodules
+            Repo.clone_from(url, extract_path, depth=1, recursive=False)
+            
+            repo_name = urlparse(url).path.strip('/')
+            if repo_name.endswith('.git'):
+                repo_name = repo_name[:-4]
+
+            file_count, languages = self._analyze_directory(extract_path)
+            
+            reported_count = min(file_count, self.max_files)
+            
+            return {
+                "status": "success",
+                "path": extract_path,
+                "repo_name": repo_name,
+                "file_count": reported_count,
+                "languages": languages
+            }
+
+        except GitCommandError as e:
+            return {"status": "error", "message": f"Git clone failed: {str(e)}"}
+        except Exception as e:
+            return {"status": "error", "message": f"Error cloning repo: {str(e)}"}
+
+    def load_from_zip(self, zip_path: str) -> Dict[str, Any]:
+        """Extract ZIP, validate, return path and stats."""
+        try:
+            # Check file size before doing anything
+            if os.path.getsize(zip_path) > self.max_zip_size:
+                return {"status": "error", "message": "ZIP file exceeds 10MB limit."}
+                
+            if not zipfile.is_zipfile(zip_path):
+                return {"status": "error", "message": "Invalid ZIP file."}
+
+            extract_path = tempfile.mkdtemp(prefix="codegraphx_zip_")
+
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                # ZipSlip prevention and size validation during extraction
+                total_size = 0
+                for zip_info in zip_ref.filelist:
+                    # Zip slip check
+                    if zip_info.filename.startswith('/') or '..' in zip_info.filename:
+                        shutil.rmtree(extract_path)
+                        return {"status": "error", "message": "Invalid ZIP archive: potential directory traversal (ZipSlip)."}
+                    
+                    total_size += zip_info.file_size
+                    if total_size > self.max_zip_size:
+                        shutil.rmtree(extract_path)
+                        return {"status": "error", "message": "Extracted contents exceed 10MB limit."}
+
+                zip_ref.extractall(extract_path)
+
+            file_count, languages = self._analyze_directory(extract_path)
+            reported_count = min(file_count, self.max_files)
+
+            return {
+                "status": "success",
+                "path": extract_path,
+                "file_count": reported_count,
+                "languages": languages
+            }
+
+        except Exception as e:
+            return {"status": "error", "message": f"Error extracting ZIP: {str(e)}"}
+
+    def _analyze_directory(self, path: str) -> Tuple[int, List[str]]:
+        file_count = 0
+        languages_found = set()
+
+        for root, _, files in os.walk(path):
+            if '.git' in root:
                 continue
-            count += len([f for f in files if not f.startswith(".")])
-        return count
+            for file in files:
+                file_count += 1
+                _, ext = os.path.splitext(file)
+                if ext in self.allowed_extensions:
+                    languages_found.add(self.allowed_extensions[ext])
 
-    def _detect_languages(self, directory: Path) -> list[str]:
-        languages: set[str] = set()
-
-        for root, dirs, files in os.walk(directory):
-            dir_parts = Path(root).parts
-            if "__pycache__" in dir_parts or ".git" in dir_parts:
-                dirs.clear()
-                continue
-            for filename in files:
-                if filename.startswith("."):
-                    continue
-                filepath = Path(root) / filename
-                try:
-                    with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
-                        content = f.read(4096)
-                    if content:
-                        lexer = guess_lexer_for_filename(filename, content)
-                        languages.add(lexer.name)
-                except (OSError, ValueError):
-                    try:
-                        lexer = get_lexer_for_filename(filename)
-                        languages.add(lexer.name)
-                    except (OSError, ValueError):
-                        pass
-
-        return sorted(languages)[:5]
-
-    def _get_top_level_name(self, names: list[str]) -> str:
-        for name in names:
-            if name and "/" in name:
-                return name.split("/")[0]
-        return "extracted"
+        return file_count, list(languages_found)
